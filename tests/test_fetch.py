@@ -75,7 +75,7 @@ def test_download_writes_all_pages_of_each_indicator(fake_api, tmp_path):
 def test_download_keeps_a_missing_value_as_missing(fake_api, tmp_path):
     fetch.download(tmp_path)
 
-    table = read_indicator(tmp_path / f"{fetch.INDICATORS[0]}.csv")
+    table = read_indicator(tmp_path / "SP.DYN.LE00.IN.csv")
     row = table[(table["iso3"] == "NAM") & (table["year"] == 1960)]
     assert row["value"].isna().all()
 
