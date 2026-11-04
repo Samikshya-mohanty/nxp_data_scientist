@@ -81,3 +81,54 @@ def test_aggregates_hold_only_income_groups_in_the_panel_columns(built):
     assert aggregates["income_group"].unique().tolist() == ["High income"]
     assert sorted(aggregates["year"].unique()) == [1960, 2023]
     assert (aggregates["gender_gap"] == 10.0).all()
+
+
+@pytest.fixture(scope="module")
+def snapshot():
+    return pd.read_csv(panel.PROCESSED_DIR / "panel.csv")
+
+
+def test_snapshot_has_217_economies_for_each_of_64_years(snapshot):
+    assert len(snapshot) == 13888
+    assert snapshot["iso3"].nunique() == 217
+    assert snapshot["year"].min() == 1960
+    assert snapshot["year"].max() == 2023
+    assert not snapshot.duplicated(["iso3", "year"]).any()
+
+
+def test_snapshot_income_group_and_region_sizes(snapshot):
+    countries = snapshot.drop_duplicates("iso3")
+    assert countries["income_group"].value_counts().to_dict() == {
+        "High income": 86,
+        "Upper middle income": 59,
+        "Lower middle income": 47,
+        "Low income": 25,
+    }
+    assert countries["region"].nunique() == 7
+
+
+def test_snapshot_keeps_haiti_2010_as_reported(snapshot):
+    row = snapshot[(snapshot["iso3"] == "HTI") & (snapshot["year"] == 2010)].iloc[0]
+    assert row["life_exp"] == pytest.approx(45.6, abs=0.05)
+
+
+@pytest.mark.parametrize(
+    "column, expected",
+    [
+        ("life_exp", {"Israel": 4, "West Bank and Gaza": 30}),
+        ("life_exp_male", {"Israel": 4, "West Bank and Gaza": 30}),
+        ("life_exp_female", {"Israel": 4, "West Bank and Gaza": 30}),
+        ("gender_gap", {"Israel": 4, "West Bank and Gaza": 30}),
+        ("death_rate", {"West Bank and Gaza": 30}),
+        ("fertility", {"Luxembourg": 2, "West Bank and Gaza": 30}),
+    ],
+)
+def test_snapshot_has_only_the_known_missing_values(snapshot, column, expected):
+    missing = snapshot[snapshot[column].isna()].groupby("country").size().to_dict()
+    assert missing == expected
+
+
+def test_processed_files_match_a_fresh_build_from_the_raw_snapshot(tmp_path):
+    panel.build(panel.RAW_DIR, tmp_path)
+    for name in ("panel.csv", "aggregates.csv"):
+        assert (tmp_path / name).read_bytes() == (panel.PROCESSED_DIR / name).read_bytes()
