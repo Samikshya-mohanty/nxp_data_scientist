@@ -1,9 +1,8 @@
 import pandas as pd
 
-from common.constants import INDICATORS, PROCESSED_DIR, RAW_DIR
+from common.constants import INCOME_GROUPS, INDICATORS, PROCESSED_DIR, RAW_DIR
 
 LAST_YEAR = 2023
-INCOME_GROUPS = ("Low income", "Lower middle income", "Upper middle income", "High income")
 COLUMNS = [
     "iso3",
     "country",
