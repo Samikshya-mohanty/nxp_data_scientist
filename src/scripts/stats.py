@@ -24,6 +24,11 @@ def main():
     print(f"Question 1: {answer} changed the most ({result.loc[answer, 'change']:+.2f} years).")
     print(result.round(2).to_string())
 
+    countries = stats.country_gender_gap_change(panel)
+    countries.to_csv(REPORTS_DIR / "question_1_by_country.csv", index=False, float_format="%.3f")
+    print(f"\nLargest rises in the gap:\n{countries.head(5).round(2).to_string(index=False)}")
+    print(f"\nLargest falls in the gap:\n{countries.dropna(subset='change').tail(5).round(2).to_string(index=False)}")
+
 
 if __name__ == "__main__":
     main()

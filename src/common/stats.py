@@ -12,6 +12,14 @@ def gender_gap_change(table):
     return result.reindex(INCOME_GROUPS)
 
 
+def country_gender_gap_change(table):
+    years = table[table["year"].isin([1960, 2023])]
+    gaps = years.pivot(index=["iso3", "country", "income_group"], columns="year", values="gender_gap")
+    result = gaps.rename(columns={1960: "gap_1960", 2023: "gap_2023"}).rename_axis(columns=None).reset_index()
+    result["change"] = result["gap_2023"] - result["gap_1960"]
+    return result.sort_values("change", ascending=False)
+
+
 def largest_change(changes):
     return changes.abs().idxmax()
 

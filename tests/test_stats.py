@@ -67,9 +67,38 @@ def test_window_change_averages_all_values_in_each_window():
     assert result["Low income"] == 6.0
 
 
+def test_country_change_gives_one_row_per_country_with_largest_rise_first(table):
+    named = table.assign(country=table["iso3"].str.title())
+    result = stats.country_gender_gap_change(named)
+    assert result["iso3"].tolist() == ["BBB", "AAA", "CCC", "NEW"]
+    assert result["change"].tolist()[:3] == [5.0, 3.0, -3.0]
+
+
+def test_country_change_stays_blank_without_both_years(table):
+    named = table.assign(country=table["iso3"].str.title())
+    result = stats.country_gender_gap_change(named).set_index("iso3")
+    assert pd.isna(result.loc["NEW", "gap_1960"])
+    assert result.loc["NEW", "gap_2023"] == 100.0
+    assert pd.isna(result.loc["NEW", "change"])
+
+
 @pytest.fixture(scope="module")
 def panel():
     return pd.read_csv(PROCESSED_DIR / "panel.csv")
+
+
+def test_snapshot_country_changes_cover_every_country(panel):
+    result = stats.country_gender_gap_change(panel)
+    assert len(result) == 217
+    assert result["change"].notna().sum() == 215
+    assert set(result[result["change"].isna()]["country"]) == {"Israel", "West Bank and Gaza"}
+
+
+def test_snapshot_country_changes_average_to_the_group_changes(panel):
+    countries = stats.country_gender_gap_change(panel)
+    groups = stats.gender_gap_change(panel)
+    averages = countries.groupby("income_group")["change"].mean().reindex(groups.index)
+    assert averages.tolist() == pytest.approx(groups["change"].tolist())
 
 
 @pytest.fixture(scope="module")
