@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from common.constants import INCOME_GROUPS
+from common.constants import BUCKETS, INCOME_GROUPS
 
 SPREAD_MEASURES = {
     "standard_deviation": lambda values: values.std(),
@@ -11,10 +11,14 @@ SPREAD_MEASURES = {
 }
 
 
-def gender_gap_by_year(table):
+def mean_by_year(table, column):
     years = table[table["year"].between(1960, 2023)]
-    means = years.groupby(["year", "income_group"])["gender_gap"].mean().unstack()
+    means = years.groupby(["year", "income_group"])[column].mean().unstack()
     return means.reindex(columns=INCOME_GROUPS)
+
+
+def gender_gap_by_year(table):
+    return mean_by_year(table, "gender_gap")
 
 
 def change_summary(by_year):
@@ -97,3 +101,33 @@ def gender_gap_window_change(table, start_years, end_years):
         return table[table["year"].isin(years)].groupby("income_group")["gender_gap"].mean()
 
     return (window_mean(end_years) - window_mean(start_years)).reindex(INCOME_GROUPS)
+
+
+def life_exp_by_year(table):
+    return mean_by_year(table, "life_exp")
+
+
+def assign_buckets(values):
+    ranks = values.sort_index().rank(method="first").astype(int) - 1
+    positions = ranks * len(BUCKETS) // len(ranks)
+    return positions.map(dict(enumerate(BUCKETS))).reindex(values.index)
+
+
+def bucket_moves(table):
+    both_years = countries_with_both_years(table, "life_exp")
+    values = both_years.pivot(index=["iso3", "country"], columns="year", values="life_exp")
+    moves = pd.DataFrame(
+        {
+            "bucket_1960": assign_buckets(values.droplevel("country")[1960]).values,
+            "bucket_2023": assign_buckets(values.droplevel("country")[2023]).values,
+            "life_exp_1960": values[1960].values,
+            "life_exp_2023": values[2023].values,
+        },
+        index=values.index,
+    )
+    return moves.reset_index()
+
+
+def bucket_counts(moves):
+    counts = pd.crosstab(moves["bucket_1960"], moves["bucket_2023"])
+    return counts.reindex(index=BUCKETS, columns=BUCKETS, fill_value=0)

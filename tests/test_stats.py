@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 
 from common import stats
-from common.constants import INCOME_GROUPS, PROCESSED_DIR
+from common.constants import BUCKETS, INCOME_GROUPS, PROCESSED_DIR
 
 
 def row(iso3, income_group, year, gender_gap):
@@ -373,3 +373,86 @@ def test_snapshot_window_ending_before_covid_picks_low_income(panel):
         abs=0.005,
     )
     assert stats.largest_change(result) == "Low income"
+
+
+def test_life_exp_by_year_averages_each_group_in_every_year():
+    table = pd.DataFrame(
+        [
+            {"iso3": "AAA", "income_group": "Low income", "year": 1960, "life_exp": 40.0},
+            {"iso3": "BBB", "income_group": "Low income", "year": 1960, "life_exp": 50.0},
+            {"iso3": "BBB", "income_group": "Low income", "year": 2023, "life_exp": 70.0},
+            {"iso3": "CCC", "income_group": "Low income", "year": 2023, "life_exp": None},
+        ]
+    )
+    by_year = stats.life_exp_by_year(table)
+    assert by_year.loc[1960, "Low income"] == 45.0
+    assert by_year.loc[2023, "Low income"] == 70.0
+    assert list(by_year.columns) == list(INCOME_GROUPS)
+
+
+def test_assign_buckets_splits_into_five_equal_named_groups():
+    values = pd.Series(range(10), index=[f"C{i}" for i in range(10)], dtype=float)
+    buckets = stats.assign_buckets(values)
+    assert buckets.value_counts().to_dict() == {bucket: 2 for bucket in BUCKETS}
+    assert buckets["C0"] == "Very low life expectancy"
+    assert buckets["C9"] == "Very high life expectancy"
+
+
+def test_assign_buckets_keeps_sizes_roughly_equal_when_they_cannot_be_exact():
+    values = pd.Series(range(12), index=[f"C{i:02d}" for i in range(12)], dtype=float)
+    sizes = stats.assign_buckets(values).value_counts()
+    assert sizes.max() - sizes.min() <= 1
+    assert sizes.sum() == 12
+
+
+def test_assign_buckets_breaks_ties_by_country_code():
+    values = pd.Series([50.0] * 5, index=["EEE", "AAA", "DDD", "BBB", "CCC"])
+    buckets = stats.assign_buckets(values)
+    assert buckets["AAA"] == "Very low life expectancy"
+    assert buckets["EEE"] == "Very high life expectancy"
+
+
+def test_bucket_moves_uses_only_countries_with_both_years():
+    rows = [
+        {"iso3": f"C{i}", "country": f"Country {i}", "year": year, "life_exp": float(i) + (year - 1960)}
+        for i in range(5)
+        for year in (1960, 2023)
+    ]
+    rows.append({"iso3": "NEW", "country": "New", "year": 2023, "life_exp": 99.0})
+    moves = stats.bucket_moves(pd.DataFrame(rows))
+    assert "NEW" not in moves["iso3"].tolist()
+    assert len(moves) == 5
+    first = moves.set_index("iso3").loc["C0"]
+    assert first["bucket_1960"] == "Very low life expectancy"
+    assert first["country"] == "Country 0"
+    assert first["life_exp_2023"] == 63.0
+
+
+def test_snapshot_bucket_moves_match_the_earlier_test(panel):
+    moves = stats.bucket_moves(panel)
+    assert len(moves) == 215
+    assert set(moves["bucket_1960"].value_counts()) == {43}
+    assert set(moves["bucket_2023"].value_counts()) == {43}
+
+    counts = stats.bucket_counts(moves)
+    assert list(counts.index) == list(BUCKETS)
+    assert list(counts.columns) == list(BUCKETS)
+    assert counts.values.tolist() == [
+        [25, 11, 3, 4, 0],
+        [14, 15, 8, 4, 2],
+        [4, 13, 14, 9, 3],
+        [0, 4, 14, 17, 8],
+        [0, 0, 4, 9, 30],
+    ]
+    assert (counts.values > 0).sum() == 21
+    assert sum(counts.iloc[i, i] for i in range(5)) == 101
+
+
+def test_snapshot_biggest_bucket_movers_match_the_earlier_test(panel):
+    moves = stats.bucket_moves(panel).set_index("country")
+    for country in ("United Arab Emirates", "Bahrain"):
+        assert moves.loc[country, "bucket_1960"] == "Low life expectancy"
+        assert moves.loc[country, "bucket_2023"] == "Very high life expectancy"
+    for country in ("China", "Iran, Islamic Rep.", "Maldives", "Oman"):
+        assert moves.loc[country, "bucket_1960"] == "Very low life expectancy"
+        assert moves.loc[country, "bucket_2023"] == "High life expectancy"

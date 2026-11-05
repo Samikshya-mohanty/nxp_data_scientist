@@ -4,6 +4,13 @@ RAW_DIR = Path(__file__).parents[2] / "data" / "raw"
 PROCESSED_DIR = RAW_DIR.parent / "processed"
 REPORTS_DIR = RAW_DIR.parents[1] / "reports"
 INCOME_GROUPS = ("Low income", "Lower middle income", "Upper middle income", "High income")
+BUCKETS = (
+    "Very low life expectancy",
+    "Low life expectancy",
+    "Medium life expectancy",
+    "High life expectancy",
+    "Very high life expectancy",
+)
 INDICATORS = {
     "SP.DYN.LE00.IN": "life_exp",
     "SP.DYN.LE00.MA.IN": "life_exp_male",
