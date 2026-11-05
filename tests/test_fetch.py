@@ -1,7 +1,8 @@
 import pandas as pd
 import pytest
 
-from lifeexp import fetch
+from common.constants import INDICATORS
+from scripts import fetch
 
 
 def country(iso3, iso2, name, region, income):
@@ -66,7 +67,7 @@ def read_indicator(path):
 def test_download_writes_all_pages_of_each_indicator(fake_api, tmp_path):
     fetch.download(tmp_path)
 
-    for indicator in fetch.INDICATORS:
+    for indicator in INDICATORS:
         table = read_indicator(tmp_path / f"{indicator}.csv")
         assert sorted(table["iso3"].unique()) == ["NAM", "WLD"]
         assert len(table) == 3
@@ -95,7 +96,7 @@ def test_download_records_the_last_update_date_of_each_indicator(fake_api, tmp_p
     fetch.download(tmp_path)
 
     table = pd.read_csv(tmp_path / "last_updated.csv")
-    assert set(table["indicator"]) == set(fetch.INDICATORS)
+    assert set(table["indicator"]) == set(INDICATORS)
     assert set(table["last_updated"]) == {"2026-10-08"}
 
 

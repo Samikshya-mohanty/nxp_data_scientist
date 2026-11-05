@@ -1,8 +1,7 @@
 import pandas as pd
 
-from lifeexp.fetch import INDICATORS, RAW_DIR
+from common.constants import INDICATORS, PROCESSED_DIR, RAW_DIR
 
-PROCESSED_DIR = RAW_DIR.parent / "processed"
 LAST_YEAR = 2023
 INCOME_GROUPS = ("Low income", "Lower middle income", "Upper middle income", "High income")
 COLUMNS = [

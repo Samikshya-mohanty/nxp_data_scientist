@@ -1,10 +1,10 @@
 .PHONY: download data test
 
 download:
-	uv run python -m lifeexp.fetch
+	uv run python -m scripts.fetch
 
 data:
-	uv run python -m lifeexp.panel
+	uv run python -m scripts.panel
 
 test:
 	uv run pytest

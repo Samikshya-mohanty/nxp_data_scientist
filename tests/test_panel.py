@@ -1,7 +1,8 @@
 import pandas as pd
 import pytest
 
-from lifeexp import panel
+from common.constants import PROCESSED_DIR, RAW_DIR
+from scripts import panel
 
 COUNTRIES = """iso3,iso2,name,region,income_group
 HTI,HT,Haiti,Latin America & Caribbean ,Lower middle income
@@ -85,7 +86,7 @@ def test_aggregates_hold_only_income_groups_in_the_panel_columns(built):
 
 @pytest.fixture(scope="module")
 def snapshot():
-    return pd.read_csv(panel.PROCESSED_DIR / "panel.csv")
+    return pd.read_csv(PROCESSED_DIR / "panel.csv")
 
 
 def test_snapshot_has_217_economies_for_each_of_64_years(snapshot):
@@ -129,6 +130,6 @@ def test_snapshot_has_only_the_known_missing_values(snapshot, column, expected):
 
 
 def test_processed_files_match_a_fresh_build_from_the_raw_snapshot(tmp_path):
-    panel.build(panel.RAW_DIR, tmp_path)
+    panel.build(RAW_DIR, tmp_path)
     for name in ("panel.csv", "aggregates.csv"):
-        assert (tmp_path / name).read_bytes() == (panel.PROCESSED_DIR / name).read_bytes()
+        assert (tmp_path / name).read_bytes() == (PROCESSED_DIR / name).read_bytes()
