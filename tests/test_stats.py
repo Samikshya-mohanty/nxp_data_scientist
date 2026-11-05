@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 
 from common import stats
-from common.constants import PROCESSED_DIR
+from common.constants import INCOME_GROUPS, PROCESSED_DIR
 
 
 def row(iso3, income_group, year, gender_gap):
@@ -91,15 +91,15 @@ def test_gap_by_year_leaves_out_years_outside_the_period():
     assert stats.gender_gap_by_year(table).index.tolist() == [1960, 2023]
 
 
-def test_gap_summary_describes_the_whole_period():
+def test_change_summary_describes_the_whole_period():
     by_year = pd.DataFrame(
         {"Low income": [2.0, 6.0, 4.0], "High income": [5.0, 1.0, 3.0]},
         index=[1960, 2000, 2023],
     )
-    summary = stats.gender_gap_summary(by_year)
+    summary = stats.change_summary(by_year)
     low = summary.loc["Low income"]
-    assert low["gap_1960"] == 2.0
-    assert low["gap_2023"] == 4.0
+    assert low["value_1960"] == 2.0
+    assert low["value_2023"] == 4.0
     assert low["change"] == 2.0
     assert low["lowest"] == 2.0
     assert low["lowest_year"] == 1960
@@ -109,10 +109,114 @@ def test_gap_summary_describes_the_whole_period():
     assert summary.loc["High income", "change"] == -2.0
 
 
-def test_gap_summary_trend_is_years_of_gap_per_decade():
+def test_change_summary_trend_is_change_per_decade():
     by_year = pd.DataFrame({"Low income": [1.0, 7.3]}, index=[1960, 2023])
-    summary = stats.gender_gap_summary(by_year)
+    summary = stats.change_summary(by_year)
     assert summary.loc["Low income", "trend_per_decade"] == pytest.approx(1.0)
+
+
+def spread_table():
+    return pd.DataFrame(
+        [
+            {"iso3": "AAA", "income_group": "Low income", "year": 1960, "life_exp": 50.0},
+            {"iso3": "BBB", "income_group": "Low income", "year": 1960, "life_exp": 60.0},
+            {"iso3": "CCC", "income_group": "Low income", "year": 1960, "life_exp": 70.0},
+            {"iso3": "AAA", "income_group": "Low income", "year": 2023, "life_exp": 75.0},
+            {"iso3": "BBB", "income_group": "Low income", "year": 2023, "life_exp": 76.0},
+            {"iso3": "CCC", "income_group": "Low income", "year": 2023, "life_exp": 77.0},
+            {"iso3": "NEW", "income_group": "Low income", "year": 2023, "life_exp": None},
+        ]
+    )
+
+
+@pytest.mark.parametrize(
+    "measure, value_1960",
+    [
+        ("standard_deviation", 10.0),
+        ("iqr", 10.0),
+        ("range", 20.0),
+        ("coefficient_of_variation", 10.0 / 60.0),
+    ],
+)
+def test_spread_by_year_measures_the_spread_across_countries(measure, value_1960):
+    by_year = stats.spread_by_year(spread_table(), measure)
+    assert by_year.loc[1960, "Low income"] == pytest.approx(value_1960)
+
+
+def test_variability_changes_gives_each_measure_for_each_group():
+    table = pd.concat(spread_table().assign(income_group=group) for group in INCOME_GROUPS)
+    changes = stats.variability_changes(table)
+    assert changes.loc["Low income", "standard_deviation"] == pytest.approx(-9.0)
+    assert changes.loc["Low income", "range"] == pytest.approx(-18.0)
+
+
+def correlation_table(rows):
+    return pd.DataFrame(
+        [
+            {
+                "iso3": iso3,
+                "country": iso3.title(),
+                "income_group": "Low income",
+                "year": year,
+                "life_exp": life_exp,
+                "fertility": fertility,
+            }
+            for iso3, year, life_exp, fertility in rows
+        ]
+    )
+
+
+def test_correlations_find_positive_and_negative_links_and_sort_by_strength():
+    table = correlation_table(
+        [
+            ("NEG", 1960, 40.0, 6.0),
+            ("NEG", 1961, 50.0, 4.0),
+            ("NEG", 1962, 60.0, 2.0),
+            ("POS", 1960, 40.0, 2.0),
+            ("POS", 1961, 50.0, 3.0),
+            ("POS", 1962, 60.0, 5.0),
+            ("NIL", 1960, 40.0, 3.0),
+            ("NIL", 1961, 50.0, 2.0),
+            ("NIL", 1962, 60.0, 3.0),
+        ]
+    )
+    result = stats.country_correlations(table)
+    assert result["iso3"].tolist() == ["NEG", "POS", "NIL"]
+    values = result.set_index("iso3")["pearson"]
+    assert values["NEG"] == pytest.approx(-1.0)
+    assert 0 < values["POS"] < 1
+    assert values["NIL"] == pytest.approx(0.0)
+
+
+def test_correlations_use_only_years_with_both_values():
+    table = correlation_table(
+        [
+            ("AAA", 1960, 40.0, 6.0),
+            ("AAA", 1961, 50.0, 4.0),
+            ("AAA", 1962, None, 1.0),
+            ("AAA", 1963, 70.0, None),
+            ("AAA", 1964, 60.0, 2.0),
+        ]
+    )
+    row = stats.country_correlations(table).iloc[0]
+    assert row["years_used"] == 3
+    assert row["pearson"] == pytest.approx(-1.0)
+
+
+def test_correlations_report_rank_and_yearly_change_versions():
+    table = correlation_table(
+        [
+            ("AAA", 1960, 40.0, 8.0),
+            ("AAA", 1961, 41.0, 7.0),
+            ("AAA", 1962, 42.0, 5.0),
+            ("AAA", 1963, 43.0, 4.0),
+            ("AAA", 1964, 44.0, 1.0),
+        ]
+    )
+    row = stats.country_correlations(table).iloc[0]
+    assert row["spearman"] == pytest.approx(-1.0)
+    assert row["pearson"] > -1.0
+    assert pd.isna(row["yearly_change_pearson"])
 
 
 def test_country_change_gives_one_row_per_country_with_largest_rise_first(table):
@@ -159,7 +263,7 @@ def test_snapshot_all_countries_and_all_years_answer_is_upper_middle_income(pane
     assert by_year.shape == (64, 4)
     assert not by_year.isna().any().any()
 
-    summary = stats.gender_gap_summary(by_year)
+    summary = stats.change_summary(by_year)
     assert summary["change"].to_dict() == pytest.approx(
         {
             "Low income": 1.56,
@@ -182,6 +286,50 @@ def test_snapshot_all_countries_and_all_years_answer_is_upper_middle_income(pane
     assert stats.largest_change(summary["change"]) == "Upper middle income"
     assert stats.largest_change(summary["range"]) == "Upper middle income"
     assert stats.largest_change(summary["trend_per_decade"]) == "Upper middle income"
+
+
+def test_snapshot_question_2_standard_deviation_answer(panel):
+    changes = stats.variability_changes(panel)
+    assert changes["standard_deviation"].to_dict() == pytest.approx(
+        {
+            "Low income": -2.16,
+            "Lower middle income": -1.44,
+            "Upper middle income": -3.77,
+            "High income": -2.73,
+        },
+        abs=0.005,
+    )
+    assert stats.largest_change(changes["standard_deviation"]) == "Upper middle income"
+    assert stats.largest_change(changes["iqr"]) == "Upper middle income"
+    assert stats.largest_change(changes["range"]) == "Upper middle income"
+    assert stats.largest_change(changes["coefficient_of_variation"]) == "Low income"
+
+
+def test_snapshot_question_2_both_years_check_matches_the_earlier_test(panel):
+    both_years = stats.countries_with_both_years(panel, "life_exp")
+    changes = stats.change_summary(stats.spread_by_year(both_years, "standard_deviation"))["change"]
+    assert changes.to_dict() == pytest.approx(
+        {
+            "Low income": -2.16,
+            "Lower middle income": -1.40,
+            "Upper middle income": -3.77,
+            "High income": -2.72,
+        },
+        abs=0.01,
+    )
+
+
+def test_snapshot_question_3_strongest_and_weakest_countries(panel):
+    result = stats.country_correlations(panel)
+    assert len(result) == 217
+    assert result["country"].head(3).tolist() == ["India", "Brunei Darussalam", "Ghana"]
+    assert result["country"].tail(2).tolist() == ["Eswatini", "Belarus"]
+    values = result.set_index("country")["pearson"]
+    assert values["India"] == pytest.approx(-0.9973, abs=0.00005)
+    assert values["Belarus"] == pytest.approx(0.0204, abs=0.00005)
+    assert values["Zimbabwe"] == pytest.approx(0.3452, abs=0.00005)
+    assert (result["pearson"] < 0).sum() == 208
+    assert (result["pearson"] > 0).sum() == 9
 
 
 def test_snapshot_both_years_check_is_upper_middle_income(panel):

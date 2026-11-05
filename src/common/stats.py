@@ -3,6 +3,13 @@ import pandas as pd
 
 from common.constants import INCOME_GROUPS
 
+SPREAD_MEASURES = {
+    "standard_deviation": lambda values: values.std(),
+    "iqr": lambda values: values.quantile(0.75) - values.quantile(0.25),
+    "range": lambda values: values.max() - values.min(),
+    "coefficient_of_variation": lambda values: values.std() / values.mean(),
+}
+
 
 def gender_gap_by_year(table):
     years = table[table["year"].between(1960, 2023)]
@@ -10,11 +17,11 @@ def gender_gap_by_year(table):
     return means.reindex(columns=INCOME_GROUPS)
 
 
-def gender_gap_summary(by_year):
+def change_summary(by_year):
     return pd.DataFrame(
         {
-            "gap_1960": by_year.loc[1960],
-            "gap_2023": by_year.loc[2023],
+            "value_1960": by_year.loc[1960],
+            "value_2023": by_year.loc[2023],
             "change": by_year.loc[2023] - by_year.loc[1960],
             "lowest": by_year.min(),
             "lowest_year": by_year.idxmin(),
@@ -26,9 +33,45 @@ def gender_gap_summary(by_year):
     )
 
 
+def countries_with_both_years(table, column):
+    years = table[table["year"].isin([1960, 2023])].dropna(subset=[column])
+    return years[years.groupby("iso3")["year"].transform("size") == 2]
+
+
+def spread_by_year(table, measure):
+    years = table[table["year"].between(1960, 2023)]
+    spreads = years.groupby(["year", "income_group"])["life_exp"].agg(SPREAD_MEASURES[measure]).unstack()
+    return spreads.reindex(columns=INCOME_GROUPS)
+
+
+def variability_changes(table):
+    return pd.DataFrame(
+        {measure: change_summary(spread_by_year(table, measure))["change"] for measure in SPREAD_MEASURES}
+    )
+
+
+def country_correlations(table):
+    def correlate(country):
+        ordered = country.sort_values("year")
+        life_exp = ordered["life_exp"]
+        fertility = ordered["fertility"]
+        return pd.Series(
+            {
+                "pearson": life_exp.corr(fertility),
+                "spearman": life_exp.corr(fertility, method="spearman"),
+                "yearly_change_pearson": life_exp.diff().corr(fertility.diff()),
+                "years_used": (life_exp.notna() & fertility.notna()).sum(),
+            }
+        )
+
+    result = table.groupby(["iso3", "country", "income_group"]).apply(correlate).reset_index()
+    result["years_used"] = result["years_used"].astype(int)
+    result["strength"] = result["pearson"].abs()
+    return result.sort_values("strength", ascending=False)
+
+
 def gender_gap_change(table):
-    years = table[table["year"].isin([1960, 2023])].dropna(subset=["gender_gap"])
-    both_years = years[years.groupby("iso3")["year"].transform("size") == 2]
+    both_years = countries_with_both_years(table, "gender_gap")
 
     means = both_years.groupby(["income_group", "year"])["gender_gap"].mean().unstack()
     result = means.rename(columns={1960: "gap_1960", 2023: "gap_2023"})
