@@ -67,6 +67,54 @@ def test_window_change_averages_all_values_in_each_window():
     assert result["Low income"] == 6.0
 
 
+def test_gap_by_year_counts_a_country_in_every_year_it_has_data(table):
+    by_year = stats.gender_gap_by_year(table)
+    assert by_year.loc[1960, "Low income"] == 3.0
+    assert by_year.loc[2023, "Low income"] == 38.0
+
+
+def test_gap_by_year_includes_both_edge_years_and_the_years_between(table):
+    by_year = stats.gender_gap_by_year(table)
+    assert by_year.index.tolist() == [1960, 1990, 2023]
+    assert by_year.loc[1990, "High income"] == 50.0
+
+
+def test_gap_by_year_leaves_out_years_outside_the_period():
+    table = pd.DataFrame(
+        [
+            row("AAA", "Low income", 1959, 1.0),
+            row("AAA", "Low income", 1960, 2.0),
+            row("AAA", "Low income", 2023, 3.0),
+            row("AAA", "Low income", 2024, 4.0),
+        ]
+    )
+    assert stats.gender_gap_by_year(table).index.tolist() == [1960, 2023]
+
+
+def test_gap_summary_describes_the_whole_period():
+    by_year = pd.DataFrame(
+        {"Low income": [2.0, 6.0, 4.0], "High income": [5.0, 1.0, 3.0]},
+        index=[1960, 2000, 2023],
+    )
+    summary = stats.gender_gap_summary(by_year)
+    low = summary.loc["Low income"]
+    assert low["gap_1960"] == 2.0
+    assert low["gap_2023"] == 4.0
+    assert low["change"] == 2.0
+    assert low["lowest"] == 2.0
+    assert low["lowest_year"] == 1960
+    assert low["highest"] == 6.0
+    assert low["highest_year"] == 2000
+    assert low["range"] == 4.0
+    assert summary.loc["High income", "change"] == -2.0
+
+
+def test_gap_summary_trend_is_years_of_gap_per_decade():
+    by_year = pd.DataFrame({"Low income": [1.0, 7.3]}, index=[1960, 2023])
+    summary = stats.gender_gap_summary(by_year)
+    assert summary.loc["Low income", "trend_per_decade"] == pytest.approx(1.0)
+
+
 def test_country_change_gives_one_row_per_country_with_largest_rise_first(table):
     named = table.assign(country=table["iso3"].str.title())
     result = stats.country_gender_gap_change(named)
@@ -106,7 +154,37 @@ def aggregates():
     return pd.read_csv(PROCESSED_DIR / "aggregates.csv")
 
 
-def test_snapshot_equal_weight_answer_is_upper_middle_income(panel):
+def test_snapshot_all_countries_and_all_years_answer_is_upper_middle_income(panel):
+    by_year = stats.gender_gap_by_year(panel)
+    assert by_year.shape == (64, 4)
+    assert not by_year.isna().any().any()
+
+    summary = stats.gender_gap_summary(by_year)
+    assert summary["change"].to_dict() == pytest.approx(
+        {
+            "Low income": 1.56,
+            "Lower middle income": 1.54,
+            "Upper middle income": 1.67,
+            "High income": -0.05,
+        },
+        abs=0.005,
+    )
+    assert summary["range"].to_dict() == pytest.approx(
+        {
+            "Low income": 1.94,
+            "Lower middle income": 1.85,
+            "Upper middle income": 2.23,
+            "High income": 1.23,
+        },
+        abs=0.005,
+    )
+    assert summary.loc["Upper middle income", "highest_year"] == 2020
+    assert stats.largest_change(summary["change"]) == "Upper middle income"
+    assert stats.largest_change(summary["range"]) == "Upper middle income"
+    assert stats.largest_change(summary["trend_per_decade"]) == "Upper middle income"
+
+
+def test_snapshot_both_years_check_is_upper_middle_income(panel):
     result = stats.gender_gap_change(panel)
     assert result["change"].to_dict() == pytest.approx(
         {

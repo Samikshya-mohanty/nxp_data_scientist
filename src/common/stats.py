@@ -1,4 +1,29 @@
+import numpy as np
+import pandas as pd
+
 from common.constants import INCOME_GROUPS
+
+
+def gender_gap_by_year(table):
+    years = table[table["year"].between(1960, 2023)]
+    means = years.groupby(["year", "income_group"])["gender_gap"].mean().unstack()
+    return means.reindex(columns=INCOME_GROUPS)
+
+
+def gender_gap_summary(by_year):
+    return pd.DataFrame(
+        {
+            "gap_1960": by_year.loc[1960],
+            "gap_2023": by_year.loc[2023],
+            "change": by_year.loc[2023] - by_year.loc[1960],
+            "lowest": by_year.min(),
+            "lowest_year": by_year.idxmin(),
+            "highest": by_year.max(),
+            "highest_year": by_year.idxmax(),
+            "range": by_year.max() - by_year.min(),
+            "trend_per_decade": by_year.apply(lambda gaps: np.polyfit(by_year.index, gaps, 1)[0] * 10),
+        }
+    )
 
 
 def gender_gap_change(table):

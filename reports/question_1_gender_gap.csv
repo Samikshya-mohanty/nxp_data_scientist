@@ -1,5 +1,5 @@
-income_group,countries,gap_1960,gap_2023,change,weighted_change,change_to_2017_19,change_to_2021_23
-Low income,25,2.840,4.399,1.559,1.271,1.821,1.721
-Lower middle income,46,3.197,4.586,1.389,3.535,1.217,1.485
-Upper middle income,59,4.262,5.929,1.666,1.815,1.646,1.725
-High income,85,5.239,5.193,-0.047,-0.280,0.040,-0.060
+income_group,gap_1960,gap_2023,change,lowest,lowest_year,highest,highest_year,range,trend_per_decade,both_years_change,weighted_change,change_to_2017_19,change_to_2021_23
+Low income,2.840,4.399,1.559,2.840,1960,4.778,2020,1.938,0.184,1.559,1.271,1.821,1.721
+Lower middle income,3.197,4.740,1.543,3.023,1962,4.876,2020,1.853,0.140,1.389,3.535,1.217,1.485
+Upper middle income,4.262,5.929,1.666,4.262,1960,6.491,2020,2.228,0.265,1.666,1.815,1.646,1.725
+High income,5.239,5.185,-0.055,5.185,2023,6.410,1995,1.225,-0.058,-0.047,-0.280,0.040,-0.060

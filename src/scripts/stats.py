@@ -5,29 +5,30 @@ from common.constants import PROCESSED_DIR, REPORTS_DIR
 
 
 def question_1(panel, aggregates):
-    result = stats.gender_gap_change(panel)
-    result["weighted_change"] = stats.gender_gap_change(aggregates)["change"]
-    result["change_to_2017_19"] = stats.gender_gap_window_change(panel, (1960, 1961, 1962), (2017, 2018, 2019))
-    result["change_to_2021_23"] = stats.gender_gap_window_change(panel, (1960, 1961, 1962), (2021, 2022, 2023))
-    return result
+    by_year = stats.gender_gap_by_year(panel)
+    summary = stats.gender_gap_summary(by_year)
+    summary["both_years_change"] = stats.gender_gap_change(panel)["change"]
+    summary["weighted_change"] = stats.gender_gap_change(aggregates)["change"]
+    summary["change_to_2017_19"] = stats.gender_gap_window_change(panel, (1960, 1961, 1962), (2017, 2018, 2019))
+    summary["change_to_2021_23"] = stats.gender_gap_window_change(panel, (1960, 1961, 1962), (2021, 2022, 2023))
+    return by_year, summary
 
 
 def main():
     panel = pd.read_csv(PROCESSED_DIR / "panel.csv")
     aggregates = pd.read_csv(PROCESSED_DIR / "aggregates.csv")
-
-    result = question_1(panel, aggregates)
     REPORTS_DIR.mkdir(exist_ok=True)
-    result.to_csv(REPORTS_DIR / "question_1_gender_gap.csv", float_format="%.3f")
 
-    answer = stats.largest_change(result["change"])
-    print(f"Question 1: {answer} changed the most ({result.loc[answer, 'change']:+.2f} years).")
-    print(result.round(2).to_string())
+    by_year, summary = question_1(panel, aggregates)
+    by_year.to_csv(REPORTS_DIR / "question_1_by_year.csv", float_format="%.3f")
+    summary.to_csv(REPORTS_DIR / "question_1_gender_gap.csv", float_format="%.3f")
+    stats.country_gender_gap_change(panel).to_csv(
+        REPORTS_DIR / "question_1_by_country.csv", index=False, float_format="%.3f"
+    )
 
-    countries = stats.country_gender_gap_change(panel)
-    countries.to_csv(REPORTS_DIR / "question_1_by_country.csv", index=False, float_format="%.3f")
-    print(f"\nLargest rises in the gap:\n{countries.head(5).round(2).to_string(index=False)}")
-    print(f"\nLargest falls in the gap:\n{countries.dropna(subset='change').tail(5).round(2).to_string(index=False)}")
+    answer = stats.largest_change(summary["change"])
+    print(f"Question 1: {answer} changed the most ({summary.loc[answer, 'change']:+.2f} years).")
+    print(summary.round(2).T.to_string())
 
 
 if __name__ == "__main__":
