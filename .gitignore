@@ -3,3 +3,4 @@ logs.md
 .venv/
 __pycache__/
 .pytest_cache/
+__marimo__/
