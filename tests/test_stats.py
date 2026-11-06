@@ -456,3 +456,16 @@ def test_snapshot_biggest_bucket_movers_match_the_earlier_test(panel):
     for country in ("China", "Iran, Islamic Rep.", "Maldives", "Oman"):
         assert moves.loc[country, "bucket_1960"] == "Very low life expectancy"
         assert moves.loc[country, "bucket_2023"] == "High life expectancy"
+
+
+def test_bucket_labels_use_the_assignment_names_for_five_buckets():
+    assert stats.bucket_labels(5) == BUCKETS
+    assert stats.bucket_labels(3) == ("Bucket 1 (lowest)", "Bucket 2", "Bucket 3 (highest)")
+
+
+def test_assign_buckets_can_use_another_number_of_buckets():
+    values = pd.Series(range(9), index=[f"C{i}" for i in range(9)], dtype=float)
+    labels = stats.bucket_labels(3)
+    buckets = stats.assign_buckets(values, labels)
+    assert buckets.value_counts().to_dict() == {label: 3 for label in labels}
+    assert buckets["C8"] == "Bucket 3 (highest)"

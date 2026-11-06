@@ -107,19 +107,28 @@ def life_exp_by_year(table):
     return mean_by_year(table, "life_exp")
 
 
-def assign_buckets(values):
+def bucket_labels(count):
+    if count == len(BUCKETS):
+        return BUCKETS
+    names = [f"Bucket {number}" for number in range(1, count + 1)]
+    names[0] += " (lowest)"
+    names[-1] += " (highest)"
+    return tuple(names)
+
+
+def assign_buckets(values, labels=BUCKETS):
     ranks = values.sort_index().rank(method="first").astype(int) - 1
-    positions = ranks * len(BUCKETS) // len(ranks)
-    return positions.map(dict(enumerate(BUCKETS))).reindex(values.index)
+    positions = ranks * len(labels) // len(ranks)
+    return positions.map(dict(enumerate(labels))).reindex(values.index)
 
 
-def bucket_moves(table):
+def bucket_moves(table, labels=BUCKETS):
     both_years = countries_with_both_years(table, "life_exp")
     values = both_years.pivot(index=["iso3", "country"], columns="year", values="life_exp")
     moves = pd.DataFrame(
         {
-            "bucket_1960": assign_buckets(values.droplevel("country")[1960]).values,
-            "bucket_2023": assign_buckets(values.droplevel("country")[2023]).values,
+            "bucket_1960": assign_buckets(values.droplevel("country")[1960], labels).values,
+            "bucket_2023": assign_buckets(values.droplevel("country")[2023], labels).values,
             "life_exp_1960": values[1960].values,
             "life_exp_2023": values[2023].values,
         },
@@ -128,6 +137,6 @@ def bucket_moves(table):
     return moves.reset_index()
 
 
-def bucket_counts(moves):
+def bucket_counts(moves, labels=BUCKETS):
     counts = pd.crosstab(moves["bucket_1960"], moves["bucket_2023"])
-    return counts.reindex(index=BUCKETS, columns=BUCKETS, fill_value=0)
+    return counts.reindex(index=labels, columns=labels, fill_value=0)

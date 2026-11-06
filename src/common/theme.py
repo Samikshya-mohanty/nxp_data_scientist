@@ -1,4 +1,6 @@
-from common.constants import BUCKETS, INCOME_GROUPS
+from plotly.colors import sample_colorscale
+
+from common.constants import INCOME_GROUPS
 
 SURFACE = "#fcfcfb"
 TEXT = "#0b0b0b"
@@ -9,8 +11,12 @@ BAND = "#efeeea"
 BAR = "#2a78d6"
 
 INCOME_COLORS = dict(zip(INCOME_GROUPS, ("#86b6ef", "#3987e5", "#1c5cab", "#104281")))
-BUCKET_COLORS = dict(zip(BUCKETS, ("#b7d3f6", "#86b6ef", "#3987e5", "#1c5cab", "#104281")))
+BUCKET_RAMP = ["#b7d3f6", "#86b6ef", "#3987e5", "#1c5cab", "#104281"]
 SEQUENTIAL = ["#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#104281"]
+
+
+def bucket_colors(labels):
+    return dict(zip(labels, sample_colorscale(BUCKET_RAMP, len(labels))))
 
 
 def apply_theme(figure, title, subtitle=""):

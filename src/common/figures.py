@@ -122,33 +122,35 @@ def ranked_chart(panel):
     return theme.apply_theme(figure, "Highest and lowest life expectancy in 2023", "Top 10 above, bottom 10 below.")
 
 
-def sankey_chart(moves):
-    counts = stats.bucket_counts(moves)
-    top_to_bottom = list(reversed(BUCKETS))
+def sankey_chart(moves, labels=BUCKETS):
+    counts = stats.bucket_counts(moves, labels)
+    top_to_bottom = list(reversed(labels))
+    colors = theme.bucket_colors(labels)
+    size = len(labels)
 
     def node_labels(year):
         groups = moves.groupby(f"bucket_{year}")[f"life_exp_{year}"]
         return [f"{bucket} ({groups.min()[bucket]:.1f} to {groups.max()[bucket]:.1f})" for bucket in top_to_bottom]
 
-    sources, targets, values, colors = [], [], [], []
+    sources, targets, values, link_colors = [], [], [], []
     for start, start_bucket in enumerate(top_to_bottom):
         for end, end_bucket in enumerate(top_to_bottom):
             count = int(counts.loc[start_bucket, end_bucket])
             if count > 0:
                 sources.append(start)
-                targets.append(end + 5)
+                targets.append(end + size)
                 values.append(count)
-                colors.append(_with_opacity(theme.BUCKET_COLORS[start_bucket], 0.45))
+                link_colors.append(_with_opacity(colors[start_bucket], 0.45))
 
-    positions = [0.1, 0.3, 0.5, 0.7, 0.9]
+    positions = [(index + 0.5) / size for index in range(size)]
     figure = go.Figure(
         go.Sankey(
             arrangement="fixed",
             node={
                 "label": node_labels(1960) + node_labels(2023),
-                "x": [0.001] * 5 + [0.999] * 5,
+                "x": [0.001] * size + [0.999] * size,
                 "y": positions * 2,
-                "color": [theme.BUCKET_COLORS[bucket] for bucket in top_to_bottom] * 2,
+                "color": [colors[bucket] for bucket in top_to_bottom] * 2,
                 "pad": 14,
                 "thickness": 16,
                 "line": {"width": 0},
@@ -158,7 +160,7 @@ def sankey_chart(moves):
                 "source": sources,
                 "target": targets,
                 "value": values,
-                "color": colors,
+                "color": link_colors,
                 "hovertemplate": "%{source.label}<br>to %{target.label}<br>%{value} countries<extra></extra>",
             },
             textfont={"color": theme.TEXT, "size": 12},
@@ -169,20 +171,23 @@ def sankey_chart(moves):
             x=x, y=1.03, xref="paper", yref="paper", text=f"<b>{text}</b>", showarrow=False, font={"size": 14}
         )
     figure.update_layout(width=1200, height=760, margin={"l": 30, "r": 30, "t": 130, "b": 30})
+    sizes = moves["bucket_1960"].value_counts()
+    size_text = f"{sizes.min()}" if sizes.min() == sizes.max() else f"{sizes.min()} to {sizes.max()}"
     return theme.apply_theme(
         figure,
         "How countries moved between life expectancy buckets, 1960 to 2023",
-        "215 countries with both years, 43 in each bucket. Ranges in years. Buckets are relative to each year.",
+        f"{len(moves)} countries with both years, {size_text} in each bucket. "
+        "Ranges in years. Buckets are relative to each year.",
     )
 
 
-def moves_heatmap(moves):
-    counts = stats.bucket_counts(moves)
-    top_to_bottom = list(reversed(BUCKETS))
+def moves_heatmap(moves, labels=BUCKETS):
+    counts = stats.bucket_counts(moves, labels)
+    top_to_bottom = list(reversed(labels))
     figure = go.Figure(
         go.Heatmap(
-            z=counts.loc[top_to_bottom, list(BUCKETS)].values.tolist(),
-            x=list(BUCKETS),
+            z=counts.loc[top_to_bottom, list(labels)].values.tolist(),
+            x=list(labels),
             y=top_to_bottom,
             colorscale=theme.SEQUENTIAL,
             texttemplate="%{z}",
@@ -198,6 +203,5 @@ def moves_heatmap(moves):
     return theme.apply_theme(figure, "Number of countries in each move, 1960 to 2023", "Diagonal cells stayed in the same bucket.")
 
 
-def _with_opacity(hex_color, opacity):
-    red, green, blue = (int(hex_color[i : i + 2], 16) for i in (1, 3, 5))
-    return f"rgba({red},{green},{blue},{opacity})"
+def _with_opacity(rgb_color, opacity):
+    return rgb_color.replace("rgb(", "rgba(").replace(")", f", {opacity})")

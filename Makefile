@@ -14,6 +14,7 @@ figures:
 
 notebooks:
 	uv run marimo export html notebooks/01_statistics.py -o reports/notebooks/01_statistics.html
+	uv run marimo export html notebooks/02_charts.py -o reports/notebooks/02_charts.html
 
 test:
 	uv run pytest

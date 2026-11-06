@@ -109,3 +109,14 @@ def test_heatmap_shows_a_number_in_each_of_the_25_cells(panel):
     assert sum(sum(row) for row in trace.z) == 215
     assert trace.texttemplate == "%{z}"
     assert len(trace.z) == 5 and len(trace.z[0]) == 5
+
+
+def test_sankey_and_heatmap_follow_another_number_of_buckets(panel):
+    labels = stats.bucket_labels(3)
+    moves = stats.bucket_moves(panel, labels)
+    sankey = figures.sankey_chart(moves, labels).data[0]
+    assert len(sankey.node.label) == 6
+    assert sum(sankey.link.value) == 215
+    assert all(source < 3 <= target for source, target in zip(sankey.link.source, sankey.link.target))
+    heatmap = figures.moves_heatmap(moves, labels).data[0]
+    assert len(heatmap.z) == 3
