@@ -1,4 +1,4 @@
-.PHONY: download data stats figures notebooks test
+.PHONY: download data stats figures forecast notebooks test
 
 download:
 	uv run python -m scripts.fetch
@@ -11,6 +11,9 @@ stats:
 
 figures:
 	uv run python -m scripts.figures
+
+forecast:
+	uv run python -m scripts.forecast
 
 notebooks:
 	uv run marimo export html notebooks/01_statistics.py -o reports/notebooks/01_statistics.html
