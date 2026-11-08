@@ -88,7 +88,53 @@ The same moves as exact counts. `reports/bucket_moves.csv` lists each country.
 
 ## 3. Forecast
 
-To be added on Days 4 and 5.
+**Build a machine learning model to forecast life expectancy at birth for each country from 2010 to 2023, using only data available up to and including 2010.**
+
+The chosen model, gradient boosting, was off by **0.99 years** on average for 2011 to 2023, across 217 countries. Doing nothing, which repeats the 2010 value, was off by 1.78 years. `reports/forecast_2010_2023.csv` has the forecast for every country and year, with 2010 marked as the observed starting value.
+
+### How the model was built
+
+- **Only data up to 2010.** Every forecast first removes all data after its start year. A test replaces every value after 2010 with 999 and checks that the forecasts do not change.
+- **What it predicts.** For each country and each of the next 1 to 13 years, the change in life expectancy from the start year.
+- **What it uses.** Life expectancy at the start year, its change over the previous 5 and 10 years, fertility and its 5-year change, death rate, the gender gap, and how many years ahead. Income group is not used, because the labels are from today.
+- **How it was chosen.** On practice exams that pretend it is 1990, 1995, or 2000, and on 26 yearly exams from 1975 to 2000. The choice was written down before 2011 to 2023 was scored, and that final score was run once.
+- **Sudden drops.** If the start year is more than 5 years below the 3 years before it, the model starts from the median of the last 3 years. At the 2010 start, this changed only Haiti, whose 2010 value of 45.6 followed the earthquake, so the model started Haiti from 61.3. The same rule also smooths one-year crashes in the earlier years the model learns from.
+
+### How well it did
+
+| Method | Average mistake | 2011 to 2019 | 2020 to 2021 | 2022 to 2023 | Bias |
+| --- | --- | --- | --- | --- | --- |
+| Stay the same | 1.78 | 1.50 | 1.96 | 2.85 | -1.48 |
+| 5-year trend | 1.27 | 0.81 | 2.46 | 2.16 | +0.80 |
+| Ridge | 1.00 | 0.77 | 1.60 | 1.44 | -0.02 |
+| **Gradient boosting (chosen)** | **0.99** | **0.69** | 1.82 | 1.48 | +0.43 |
+
+Average mistake is in years. Bias above 0 means the forecasts were too high on average.
+
+![Forecast mistakes by years ahead](figures/forecast_by_horizon.png)
+
+![Forecast against what happened](figures/forecast_examples.png)
+
+- **Mistakes grow with years ahead.** One year ahead, the model was off by 0.29 years. Thirteen years ahead, it was off by 1.40.
+- **COVID was not predictable.** The mistake rose from 0.69 in 2011 to 2019 to 1.82 in 2020 and 2021. Data up to 2010 cannot know about a pandemic.
+- **Poorer countries are harder.** The average mistake was 2.02 years for low income countries and 0.78 for high income countries.
+- **Wars and crises cause the biggest mistakes.** The worst countries were South Sudan (10.2 years off), Central African Republic (7.3), Syria (6.4), and Somalia (5.9). The best were China, Bermuda, and Bhutan, all about 0.1 years off.
+- **It is better, but not everywhere.** Boosting beat doing nothing in 158 of 217 countries and the 10-year trend in 144.
+- **Boosting and ridge are close.** Boosting has a slightly lower average mistake, 0.99 against 1.00, but ridge has a lower large-mistake score (RMSE) and almost no bias. Boosting beat ridge in only 105 of 217 countries. Either is a reasonable choice.
+- **The sudden-drop rule helped a little.** Without it, boosting was off by 1.00 years.
+
+### Challenges
+
+- **Shocks cannot be forecast from the past.** Pandemics, wars, earthquakes, and epidemics cause the largest mistakes, and no data up to 2010 contains them.
+- **The past data has been revised.** The values come from the UN's World Population Prospects, which re-estimates old years with later information. A forecast made in 2010 with the data available then would probably have done worse. This is reasoning, not a measurement.
+- **The extra datasets helped only a little.** On 26 practice exams, boosting with all five datasets was off by 1.42 years, and with life expectancy alone by 1.45.
+
+### Ideas to improve it
+
+- Test against an older edition of the UN data, to measure a real 2010 forecast.
+- Add data that explains shocks and slow change, such as GDP, HIV rates, conflict, and vaccination.
+- Share information between similar countries, for example with models that group by region.
+- Give a range instead of one number, such as "between 70 and 74 years", so users see the uncertainty.
 
 ## 4. Dashboard
 

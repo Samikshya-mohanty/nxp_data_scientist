@@ -1,4 +1,5 @@
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 from common import stats, theme
 from common.constants import BUCKETS
@@ -203,5 +204,115 @@ def moves_heatmap(moves, labels=BUCKETS):
     return theme.apply_theme(figure, "Number of countries in each move, 1960 to 2023", "Diagonal cells stayed in the same bucket.")
 
 
+def _spread_apart(values, gap):
+    ordered = values.sort_values()
+    positions = {}
+    previous = None
+    for name, value in ordered.items():
+        position = value if previous is None else max(value, previous + gap)
+        positions[name] = position
+        previous = position
+    return positions
+
+
 def _with_opacity(rgb_color, opacity):
     return rgb_color.replace("rgb(", "rgba(").replace(")", f", {opacity})")
+
+
+METHOD_NAMES = {
+    "persistence": "Stay the same",
+    "trend_5": "5-year trend",
+    "trend_10": "10-year trend",
+    "trend_20": "20-year trend",
+    "ridge": "Ridge",
+    "boosting": "Boosting (chosen)",
+}
+
+
+def horizon_error_chart(by_horizon):
+    figure = go.Figure()
+    grays = iter(["#9d9b95", "#7a7873", "#5c5a56", "#3f3e3b"])
+    label_y = _spread_apart(by_horizon.iloc[-1], gap=0.09)
+    for method in by_horizon.columns:
+        chosen = method == "boosting"
+        color = theme.BAR if chosen else next(grays)
+        figure.add_trace(
+            go.Scatter(
+                x=by_horizon.index,
+                y=by_horizon[method],
+                name=method,
+                mode="lines+markers",
+                line={"color": color, "width": 3 if chosen else 2},
+                marker={"size": 6},
+                hovertemplate="%{x} years ahead<br>%{y:.2f} years off<extra>" + METHOD_NAMES[method] + "</extra>",
+            )
+        )
+        figure.add_annotation(
+            x=by_horizon.index[-1],
+            y=label_y[method],
+            text=METHOD_NAMES[method],
+            xanchor="left",
+            xshift=8,
+            showarrow=False,
+            font={"color": theme.TEXT, "size": 12},
+        )
+    figure.update_layout(width=1000, height=560, margin={"l": 70, "r": 170, "t": 100, "b": 60}, showlegend=False)
+    figure.update_xaxes(
+        title="Years ahead of 2010", dtick=1, range=[0.6, by_horizon.index[-1] + 0.3], showgrid=False, linecolor=theme.GRID
+    )
+    figure.update_yaxes(title="Average mistake (years)", rangemode="tozero", gridcolor=theme.GRID, zeroline=False)
+    return theme.apply_theme(
+        figure,
+        "Forecast mistakes grow with years ahead",
+        "Forecasts made from 2010 for 2011 to 2023, averaged over 217 countries. Lower is better.",
+    )
+
+
+def forecast_examples_chart(panel, final_table, countries):
+    columns = 2 if len(countries) > 1 else 1
+    rows = (len(countries) + columns - 1) // columns
+    figure = make_subplots(rows=rows, cols=columns, subplot_titles=countries, vertical_spacing=0.14)
+    for index, country in enumerate(countries):
+        row, column = index // columns + 1, index % columns + 1
+        actual = panel[(panel["country"] == country) & (panel["year"] >= 1990)]
+        predicted = final_table[(final_table["country"] == country) & (final_table["kind"] == "forecast")]
+        figure.add_trace(
+            go.Scatter(
+                x=actual["year"],
+                y=actual["life_exp"],
+                name="Actual",
+                mode="lines",
+                line={"color": theme.MUTED, "width": 2},
+                showlegend=index == 0,
+                hovertemplate="%{x}: %{y:.1f} years<extra>Actual</extra>",
+            ),
+            row=row,
+            col=column,
+        )
+        figure.add_trace(
+            go.Scatter(
+                x=predicted["year"],
+                y=predicted["life_exp"],
+                name="Forecast from 2010",
+                mode="lines",
+                line={"color": theme.BAR, "width": 2, "dash": "dash"},
+                showlegend=index == 0,
+                hovertemplate="%{x}: %{y:.1f} years<extra>Forecast</extra>",
+            ),
+            row=row,
+            col=column,
+        )
+    figure.add_vline(x=2010, line={"color": theme.GRID, "width": 1})
+    figure.update_layout(
+        width=1100,
+        height=360 * rows + 40,
+        margin={"l": 60, "r": 30, "t": 120, "b": 80},
+        legend={"orientation": "h", "y": -0.06, "x": 0, "yanchor": "top"},
+    )
+    figure.update_xaxes(showgrid=False, linecolor=theme.GRID)
+    figure.update_yaxes(gridcolor=theme.GRID, zeroline=False)
+    return theme.apply_theme(
+        figure,
+        "Forecast from 2010 against what happened",
+        "Gray is the reported value. Blue dashes are the boosting forecast made with data up to 2010.",
+    )

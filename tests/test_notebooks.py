@@ -16,7 +16,7 @@ def load_app(name):
     return module.app
 
 
-@pytest.mark.parametrize("name", ["01_statistics", "02_charts"])
+@pytest.mark.parametrize("name", ["01_statistics", "02_charts", "03_forecast"])
 def test_notebook_runs_as_a_script(name):
     result = subprocess.run([sys.executable, str(NOTEBOOKS / f"{name}.py")], capture_output=True, text=True)
     assert result.returncode == 0, result.stderr
@@ -70,3 +70,15 @@ def test_charts_notebook_follows_the_bucket_count():
     _, defs = load_app("02_charts").run(defs={"bucket_count": SimpleNamespace(amount=3.0)})
     assert defs["labels"] == ("Bucket 1 (lowest)", "Bucket 2", "Bucket 3 (highest)")
     assert len(defs["moves"]) == 215
+
+
+def test_forecast_notebook_shows_the_chosen_country():
+    _, defs = load_app("03_forecast").run(defs={"country": SimpleNamespace(value="India")})
+    rows = defs["country_rows"]
+    assert set(rows["country"]) == {"India"}
+    assert sorted(rows["year"]) == list(range(2010, 2024))
+
+
+def test_forecast_notebook_shows_the_chosen_practice_exam():
+    _, defs = load_app("03_forecast").run(defs={"exam_origin": SimpleNamespace(value="1990")})
+    assert defs["exam_errors"].index[0] == "boosting"

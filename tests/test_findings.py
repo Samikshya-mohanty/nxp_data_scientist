@@ -45,3 +45,13 @@ def test_findings_show_charts_that_exist(text):
     for name in ("income_line_chart", "world_map", "ranked_chart", "sankey", "moves_heatmap"):
         assert f"](figures/{name}.png)" in text
         assert (REPORTS_DIR / "figures" / f"{name}.png").exists()
+
+
+def test_findings_state_the_forecast_score_from_the_saved_results(text):
+    scores = pd.read_csv(REPORTS_DIR / "forecast_final_scores.csv", index_col=0)
+    assert f"off by **{scores.loc['boosting', 'mae']:.2f} years**" in text
+    assert f"| Stay the same | {scores.loc['persistence', 'mae']:.2f} |" in text
+    assert f"| **Gradient boosting (chosen)** | **{scores.loc['boosting', 'mae']:.2f}** |" in text
+    for name in ("forecast_by_horizon", "forecast_examples"):
+        assert f"](figures/{name}.png)" in text
+        assert (REPORTS_DIR / "figures" / f"{name}.png").exists()

@@ -18,6 +18,7 @@ forecast:
 notebooks:
 	uv run marimo export html notebooks/01_statistics.py -o reports/notebooks/01_statistics.html
 	uv run marimo export html notebooks/02_charts.py -o reports/notebooks/02_charts.html
+	uv run marimo export html notebooks/03_forecast.py -o reports/notebooks/03_forecast.html
 
 test:
 	uv run pytest

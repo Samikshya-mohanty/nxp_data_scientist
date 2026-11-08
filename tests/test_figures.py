@@ -120,3 +120,37 @@ def test_sankey_and_heatmap_follow_another_number_of_buckets(panel):
     assert all(source < 3 <= target for source, target in zip(sankey.link.source, sankey.link.target))
     heatmap = figures.moves_heatmap(moves, labels).data[0]
     assert len(heatmap.z) == 3
+
+
+def test_horizon_error_chart_has_one_line_per_method_and_labels_them():
+    by_horizon = pd.DataFrame(
+        {"persistence": [0.5, 3.0], "boosting": [0.3, 1.5]}, index=pd.Index([1, 13], name="horizon")
+    )
+    figure = figures.horizon_error_chart(by_horizon)
+    assert [trace.name for trace in figure.data] == ["persistence", "boosting"]
+    assert list(figure.data[1].y) == [0.3, 1.5]
+    labels = {annotation.text for annotation in figure.layout.annotations}
+    assert {"Stay the same", "Boosting (chosen)"} <= labels
+
+
+def test_horizon_error_chart_keeps_close_labels_apart():
+    by_horizon = pd.DataFrame({"ridge": [1.40], "boosting": [1.40]}, index=pd.Index([13], name="horizon"))
+    figure = figures.horizon_error_chart(by_horizon)
+    positions = sorted(annotation.y for annotation in figure.layout.annotations)
+    assert positions[1] - positions[0] >= 0.09
+
+
+def test_forecast_examples_chart_shows_actual_and_forecast_for_each_country(panel):
+    table = pd.DataFrame(
+        {
+            "country": ["India"] * 3,
+            "year": [2010, 2011, 2012],
+            "kind": ["observed", "forecast", "forecast"],
+            "life_exp": [67.2, 67.6, 68.0],
+        }
+    )
+    figure = figures.forecast_examples_chart(panel, table, ["India"])
+    names = [trace.name for trace in figure.data]
+    assert names == ["Actual", "Forecast from 2010"]
+    assert list(figure.data[1].x) == [2011, 2012]
+    assert min(figure.data[0].x) == 1990
