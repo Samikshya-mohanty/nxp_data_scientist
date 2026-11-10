@@ -421,3 +421,41 @@ def compare_chart(series, group_by, value_label):
     figure.update_xaxes(showgrid=False, linecolor=theme.GRID, range=[series["year"].min(), series["year"].max()])
     figure.update_yaxes(title=value_label, gridcolor=theme.GRID, zeroline=False)
     return theme.apply_theme(figure, "")
+
+
+def measure_map(panel, rows, column, value_label):
+    values = rows.dropna(subset=[column])
+    if column == "gender_gap":
+        limit = panel[column].abs().quantile(0.99)
+        scale = {"colorscale": theme.DIVERGING, "zmin": -limit, "zmax": limit, "zmid": 0}
+    else:
+        scale = {
+            "colorscale": theme.SEQUENTIAL,
+            "zmin": panel[column].quantile(0.01),
+            "zmax": panel[column].quantile(0.99),
+        }
+    figure = go.Figure(
+        go.Choropleth(
+            locations=values["iso3"],
+            z=values[column],
+            locationmode="ISO-3",
+            text=values["country"],
+            marker={"line": {"color": theme.SURFACE, "width": 0.4}},
+            colorbar={"title": value_label, "thickness": 12, "len": 0.7, "outlinewidth": 0},
+            hovertemplate="%{text}<br>%{z:.2f}<extra></extra>",
+            **scale,
+        )
+    )
+    figure.update_geos(
+        resolution=50,
+        projection_type="equal earth",
+        showframe=False,
+        showcoastlines=False,
+        showland=True,
+        landcolor=theme.NO_DATA,
+        showocean=False,
+        bgcolor=theme.SURFACE,
+        lataxis_range=[-58, 85],
+    )
+    figure.update_layout(height=560, margin={"l": 10, "r": 10, "t": 20, "b": 10})
+    return theme.apply_theme(figure, "")

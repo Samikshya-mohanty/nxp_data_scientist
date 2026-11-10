@@ -149,6 +149,7 @@ To open it, run `make app`.
 | **Story** | Three findings calculated from the data, and the income group chart |
 | **Country** | The chosen country's income group and region, its latest values with the change since 1960, and line charts of life expectancy, death rate, and fertility |
 | **Women and men** | Life expectancy of women and men, and the difference between them in each year |
+| **Map** | Any measure on a world map for any year from 1960 to 2023. The color scale is the same in every year, so years can be compared. |
 | **Compare** | Any measure by country (up to 8), income group, or region. This is the bonus option to group by income group and region. |
 | **Table** | The filtered rows, with a CSV download |
 

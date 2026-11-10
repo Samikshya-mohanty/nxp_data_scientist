@@ -15,6 +15,7 @@ BAR = "#2a78d6"
 INCOME_COLORS = dict(zip(INCOME_GROUPS, ("#86b6ef", "#3987e5", "#1c5cab", "#104281")))
 BUCKET_RAMP = ["#b7d3f6", "#86b6ef", "#3987e5", "#1c5cab", "#104281"]
 SEQUENTIAL = ["#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#104281"]
+DIVERGING = ["#eb6834", "#d9d8d3", "#1c5cab"]
 CATEGORICAL = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#6250d6", "#e34948"]
 REGION_COLORS = dict(
     zip(

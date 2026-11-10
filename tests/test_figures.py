@@ -195,3 +195,32 @@ def test_series_colors_do_not_change_when_another_series_is_removed():
     color_with_both = {t.name: t.line.color for t in figures.compare_chart(both, "Country", "x").data}["Peru"]
     color_alone = figures.compare_chart(only_peru, "Country", "x").data[0].line.color
     assert color_with_both == color_alone
+
+
+def test_measure_map_colors_countries_by_the_chosen_year_and_measure(panel):
+    figure = figures.measure_map(panel, panel[panel["year"] == 1960], "fertility", "Fertility (births per woman)")
+    trace = figure.data[0]
+    assert trace.type == "choropleth"
+    values = dict(zip(trace.locations, trace.z))
+    expected = panel[(panel["year"] == 1960) & (panel["iso3"] == "BRA")]["fertility"].iloc[0]
+    assert values["BRA"] == pytest.approx(expected)
+    assert figure.layout.geo.resolution == 50
+
+
+def test_measure_map_leaves_out_countries_without_a_value(panel):
+    figure = figures.measure_map(panel, panel[panel["year"] == 1960], "life_exp", "Life expectancy (years)")
+    assert len(figure.data[0].locations) == 215
+    assert "ISR" not in list(figure.data[0].locations)
+
+
+def test_measure_map_keeps_the_same_color_scale_in_every_year(panel):
+    early = figures.measure_map(panel, panel[panel["year"] == 1960], "life_exp", "x").data[0]
+    late = figures.measure_map(panel, panel[panel["year"] == 2023], "life_exp", "x").data[0]
+    assert (early.zmin, early.zmax) == (late.zmin, late.zmax)
+
+
+def test_measure_map_centers_the_gender_gap_on_zero(panel):
+    trace = figures.measure_map(panel, panel[panel["year"] == 1960], "gender_gap", "x").data[0]
+    assert trace.zmid == 0
+    assert len({color for _, color in trace.colorscale}) == 3
+

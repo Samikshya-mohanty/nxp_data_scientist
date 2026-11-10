@@ -71,6 +71,46 @@ def _(mo, valid_countries):
 
 
 @app.cell
+def _(mo):
+    map_year = mo.ui.slider(start=1960, stop=2023, step=1, value=2023, label="Year", full_width=True)
+    return (map_year,)
+
+
+@app.cell
+def _(mo, stats):
+    map_measure = mo.ui.dropdown(
+        options={label: key for key, label in stats.MEASURES.items()}, value=stats.MEASURES["life_exp"], label="Measure"
+    )
+    return (map_measure,)
+
+
+@app.cell
+def _(income, map_year, panel, region, stats):
+    map_rows = stats.filter_panel(panel, region.value, income.value, (map_year.value, map_year.value))
+    return (map_rows,)
+
+
+@app.cell
+def _(figures, map_measure, map_rows, map_year, mo, panel, stats):
+    has_values = map_rows[map_measure.value].notna().any()
+    map_note = (
+        "Blue means women can expect to live longer. Orange means men can. Gray is about equal."
+        if map_measure.value == "gender_gap"
+        else "Darker means higher."
+    )
+    map_view = mo.vstack(
+        [
+            mo.hstack([map_measure, map_year], justify="start", gap=2, widths=[1, 2]),
+            mo.md(f"## {map_year.value}\n{map_note} The colors mean the same in every year. Gray countries have no data or are filtered out."),
+            figures.measure_map(panel, map_rows, map_measure.value, stats.MEASURES[map_measure.value])
+            if has_values
+            else mo.md("**No data for these filters.** Change the region, income group, or year."),
+        ]
+    )
+    return (map_view,)
+
+
+@app.cell
 def _(country, income, mo, region, years):
     no_country = mo.md("**No countries match these filters.** Change the region or income group.")
     mo.sidebar(
@@ -202,7 +242,7 @@ def _(figures, forecast_errors, mo, panel, stats):
 
 
 @app.cell
-def _(compare_view, country_view, gender_view, mo, story_view, table_view):
+def _(compare_view, country_view, gender_view, map_view, mo, story_view, table_view):
     mo.vstack(
         [
             mo.md("# Life expectancy dashboard\nWorld Bank data for 217 economies, 1960 to 2023. Use the filters on the left."),
@@ -211,6 +251,7 @@ def _(compare_view, country_view, gender_view, mo, story_view, table_view):
                     "Story": story_view,
                     "Country": country_view,
                     "Women and men": gender_view,
+                    "Map": map_view,
                     "Compare": compare_view,
                     "Table": table_view,
                 }

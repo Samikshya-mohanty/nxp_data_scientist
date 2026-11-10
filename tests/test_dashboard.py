@@ -54,3 +54,20 @@ def test_grouping_uses_income_groups():
 def test_filters_apply_to_the_table():
     defs = run(region="South Asia")
     assert defs["table_rows"]["country"].nunique() == 6
+
+
+def test_map_uses_the_chosen_year():
+    defs = run(map_year=1960, map_measure="life_exp")
+    assert set(defs["map_rows"]["year"]) == {1960}
+    assert defs["map_rows"]["life_exp"].notna().sum() == 215
+
+
+def test_map_follows_the_region_filter():
+    defs = run(region="South Asia", map_year=2023, map_measure="fertility")
+    assert defs["map_rows"]["country"].nunique() == 6
+
+
+def test_map_handles_filters_with_no_countries():
+    defs = run(region="North America", income="Low income")
+    assert defs["map_rows"].empty
+
