@@ -1,4 +1,6 @@
-.PHONY: download data stats figures forecast notebooks test app
+.PHONY: download data stats figures forecast notebooks test app all
+
+all: data stats figures forecast
 
 download:
 	uv run python -m scripts.fetch
