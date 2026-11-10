@@ -469,3 +469,75 @@ def test_assign_buckets_can_use_another_number_of_buckets():
     buckets = stats.assign_buckets(values, labels)
     assert buckets.value_counts().to_dict() == {label: 3 for label in labels}
     assert buckets["C8"] == "Bucket 3 (highest)"
+
+
+def dashboard_table():
+    return pd.DataFrame(
+        [
+            {"country": "Aland", "region": "North", "income_group": "High income", "year": 1960, "life_exp": 60.0, "fertility": None},
+            {"country": "Aland", "region": "North", "income_group": "High income", "year": 2000, "life_exp": 70.0, "fertility": 3.0},
+            {"country": "Aland", "region": "North", "income_group": "High income", "year": 2023, "life_exp": 80.0, "fertility": 2.0},
+            {"country": "Bora", "region": "North", "income_group": "Low income", "year": 2000, "life_exp": 50.0, "fertility": 6.0},
+            {"country": "Cato", "region": "South", "income_group": "High income", "year": 2000, "life_exp": 90.0, "fertility": 1.0},
+        ]
+    )
+
+
+def test_filter_panel_applies_region_income_and_years():
+    rows = stats.filter_panel(dashboard_table(), "North", "High income", (2000, 2023))
+    assert rows["country"].unique().tolist() == ["Aland"]
+    assert sorted(rows["year"]) == [2000, 2023]
+
+
+def test_filter_panel_keeps_everything_for_all():
+    rows = stats.filter_panel(dashboard_table(), stats.ALL, stats.ALL, (1960, 2023))
+    assert len(rows) == 5
+
+
+def test_countries_in_lists_only_matching_countries_in_order():
+    table = dashboard_table()
+    assert stats.countries_in(table, "North", stats.ALL) == ["Aland", "Bora"]
+    assert stats.countries_in(table, "South", "Low income") == []
+
+
+def test_latest_and_change_skips_missing_values():
+    aland = dashboard_table().query("country == 'Aland'")
+    result = stats.latest_and_change(aland, "fertility")
+    assert result == {"value": 2.0, "year": 2023, "change": -1.0, "since": 2000}
+
+
+def test_latest_and_change_is_none_without_any_value():
+    aland = dashboard_table().query("country == 'Aland' and year == 1960")
+    assert stats.latest_and_change(aland, "fertility") is None
+
+
+def test_group_series_averages_each_country_once():
+    table = dashboard_table()
+    result = stats.group_series(table[table["year"] == 2000], "Region", "life_exp")
+    assert result.set_index("series")["value"].to_dict() == {"North": 60.0, "South": 90.0}
+    assert list(result.columns) == ["series", "year", "value"]
+
+
+def test_group_series_for_countries_returns_only_the_selected_ones():
+    result = stats.group_series(dashboard_table(), "Country", "life_exp", ["Bora"])
+    assert result["series"].unique().tolist() == ["Bora"]
+    assert result["value"].tolist() == [50.0]
+
+
+def test_snapshot_filters_match_the_plan(panel):
+    assert len(stats.countries_in(panel, "South Asia", stats.ALL)) == 6
+    assert stats.countries_in(panel, "North America", "Low income") == []
+
+
+def test_snapshot_income_group_series_match_the_line_chart(panel):
+    series = stats.group_series(panel, "Income group", "life_exp")
+    by_year = stats.life_exp_by_year(panel)
+    low = series[(series["series"] == "Low income") & (series["year"] == 2023)]["value"].iloc[0]
+    assert low == pytest.approx(by_year.loc[2023, "Low income"])
+
+
+def test_snapshot_story_numbers(panel):
+    numbers = stats.story_numbers(panel)
+    assert numbers["top_of_lowest_bucket_2023"] == pytest.approx(67.1, abs=0.05)
+    assert numbers["bottom_of_highest_bucket_1960"] == pytest.approx(67.7, abs=0.05)
+    assert (numbers["spread_changes"] < 0).all()

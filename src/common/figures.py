@@ -316,3 +316,108 @@ def forecast_examples_chart(panel, final_table, countries):
         "Forecast from 2010 against what happened",
         "Gray is the reported value. Blue dashes are the boosting forecast made with data up to 2010.",
     )
+
+
+def country_trends_chart(rows):
+    ordered = rows.sort_values("year")
+    panels = [
+        ("life_exp", "Life expectancy", "Life expectancy (years)"),
+        ("death_rate", "Death rate", "Death rate (per 1,000 people)"),
+        ("fertility", "Fertility", "Fertility (births per woman)"),
+    ]
+    figure = make_subplots(
+        rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.08, subplot_titles=[title for _, _, title in panels]
+    )
+    for row, (column, name, _) in enumerate(panels, start=1):
+        figure.add_trace(
+            go.Scatter(
+                x=ordered["year"],
+                y=ordered[column],
+                name=name,
+                mode="lines",
+                connectgaps=False,
+                line={"color": theme.BAR, "width": 2},
+                hovertemplate="%{x}: %{y:.2f}<extra>" + name + "</extra>",
+            ),
+            row=row,
+            col=1,
+        )
+    figure.update_layout(height=720, margin={"l": 60, "r": 30, "t": 40, "b": 40}, showlegend=False, hovermode="x unified")
+    figure.update_xaxes(showgrid=False, linecolor=theme.GRID)
+    figure.update_yaxes(gridcolor=theme.GRID, zeroline=False)
+    return theme.apply_theme(figure, "")
+
+
+def gender_chart(rows):
+    ordered = rows.sort_values("year")
+    figure = make_subplots(
+        rows=2,
+        cols=1,
+        shared_xaxes=True,
+        vertical_spacing=0.1,
+        row_heights=[0.6, 0.4],
+        subplot_titles=["Life expectancy of women and men (years)", "Difference between women and men (years)"],
+    )
+    lines = [("life_exp_female", "Women", "#1c5cab", 1), ("life_exp_male", "Men", "#eb6834", 1), ("gender_gap", "Gap (women minus men)", theme.MUTED, 2)]
+    for column, name, color, row in lines:
+        figure.add_trace(
+            go.Scatter(
+                x=ordered["year"],
+                y=ordered[column],
+                name=name,
+                mode="lines",
+                connectgaps=False,
+                line={"color": color, "width": 2},
+                hovertemplate="%{x}: %{y:.2f} years<extra>" + name + "</extra>",
+            ),
+            row=row,
+            col=1,
+        )
+    figure.add_hline(y=0, line={"color": theme.MUTED, "width": 1}, row=2, col=1)
+    figure.update_layout(
+        height=620,
+        margin={"l": 60, "r": 30, "t": 40, "b": 40},
+        hovermode="x unified",
+        legend={"orientation": "h", "y": -0.08, "x": 0, "yanchor": "top"},
+    )
+    figure.update_xaxes(showgrid=False, linecolor=theme.GRID)
+    figure.update_yaxes(gridcolor=theme.GRID, zeroline=False)
+    return theme.apply_theme(figure, "")
+
+
+def compare_chart(series, group_by, value_label):
+    figure = go.Figure()
+    last_rows = series.dropna(subset=["value"]).sort_values("year").groupby("series").tail(1).set_index("series")
+    span = max(series["value"].max() - series["value"].min(), 1.0)
+    label_y = _spread_apart(last_rows["value"], gap=span * 0.035)
+    for name, rows in series.groupby("series", sort=False):
+        figure.add_trace(
+            go.Scatter(
+                x=rows["year"],
+                y=rows["value"],
+                name=name,
+                mode="lines",
+                connectgaps=False,
+                line={"color": theme.series_color(name, group_by), "width": 2},
+                hovertemplate="%{y:.2f}<extra>" + name + "</extra>",
+            )
+        )
+        if name in last_rows.index:
+            figure.add_annotation(
+                x=last_rows.loc[name, "year"],
+                y=label_y[name],
+                text=name,
+                xanchor="left",
+                xshift=8,
+                showarrow=False,
+                font={"color": theme.TEXT, "size": 11},
+            )
+    figure.update_layout(
+        height=560,
+        margin={"l": 60, "r": 360, "t": 40, "b": 50},
+        hovermode="x unified",
+        showlegend=False,
+    )
+    figure.update_xaxes(showgrid=False, linecolor=theme.GRID, range=[series["year"].min(), series["year"].max()])
+    figure.update_yaxes(title=value_label, gridcolor=theme.GRID, zeroline=False)
+    return theme.apply_theme(figure, "")

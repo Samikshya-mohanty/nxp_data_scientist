@@ -1,3 +1,5 @@
+from zlib import crc32
+
 from plotly.colors import sample_colorscale
 
 from common.constants import INCOME_GROUPS
@@ -13,6 +15,29 @@ BAR = "#2a78d6"
 INCOME_COLORS = dict(zip(INCOME_GROUPS, ("#86b6ef", "#3987e5", "#1c5cab", "#104281")))
 BUCKET_RAMP = ["#b7d3f6", "#86b6ef", "#3987e5", "#1c5cab", "#104281"]
 SEQUENTIAL = ["#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#104281"]
+CATEGORICAL = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#6250d6", "#e34948"]
+REGION_COLORS = dict(
+    zip(
+        [
+            "East Asia & Pacific",
+            "Europe & Central Asia",
+            "Latin America & Caribbean",
+            "Middle East, North Africa, Afghanistan & Pakistan",
+            "North America",
+            "South Asia",
+            "Sub-Saharan Africa",
+        ],
+        CATEGORICAL,
+    )
+)
+
+
+def series_color(name, group_by):
+    if group_by == "Income group":
+        return INCOME_COLORS[name]
+    if group_by == "Region":
+        return REGION_COLORS[name]
+    return CATEGORICAL[crc32(name.encode()) % len(CATEGORICAL)]
 
 
 def bucket_colors(labels):

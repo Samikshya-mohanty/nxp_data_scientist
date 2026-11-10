@@ -154,3 +154,44 @@ def test_forecast_examples_chart_shows_actual_and_forecast_for_each_country(pane
     assert names == ["Actual", "Forecast from 2010"]
     assert list(figure.data[1].x) == [2011, 2012]
     assert min(figure.data[0].x) == 1990
+
+
+def one_country(panel, name):
+    return panel[panel["country"] == name]
+
+
+def test_country_chart_has_three_measures_on_a_shared_year_axis(panel):
+    figure = figures.country_trends_chart(one_country(panel, "India"))
+    assert [trace.name for trace in figure.data] == ["Life expectancy", "Death rate", "Fertility"]
+    assert figure.layout.xaxis.matches == figure.layout.xaxis2.matches or figure.layout.xaxis2.matches == "x3"
+    assert all(len(trace.x) == 64 for trace in figure.data)
+
+
+def test_country_chart_keeps_missing_years_as_gaps(panel):
+    figure = figures.country_trends_chart(one_country(panel, "West Bank and Gaza"))
+    assert figure.data[0].connectgaps is False
+    assert pd.isna(list(figure.data[0].y)[0])
+
+
+def test_gender_chart_shows_men_women_and_the_gap(panel):
+    figure = figures.gender_chart(one_country(panel, "Pakistan"))
+    assert [trace.name for trace in figure.data] == ["Women", "Men", "Gap (women minus men)"]
+    gap = dict(zip(figure.data[2].x, figure.data[2].y))
+    assert gap[1960] == pytest.approx(-3.98, abs=0.005)
+
+
+def test_compare_chart_draws_one_labelled_line_per_series():
+    series = pd.DataFrame(
+        {"series": ["Low income", "Low income", "High income", "High income"], "year": [2000, 2023] * 2, "value": [50.0, 60.0, 75.0, 80.0]}
+    )
+    figure = figures.compare_chart(series, "Income group", "Life expectancy (years)")
+    assert sorted(trace.name for trace in figure.data) == ["High income", "Low income"]
+    assert {"Low income", "High income"} <= {annotation.text for annotation in figure.layout.annotations}
+
+
+def test_series_colors_do_not_change_when_another_series_is_removed():
+    both = pd.DataFrame({"series": ["Kenya", "Peru"], "year": [2000, 2000], "value": [50.0, 60.0]})
+    only_peru = both[both["series"] == "Peru"]
+    color_with_both = {t.name: t.line.color for t in figures.compare_chart(both, "Country", "x").data}["Peru"]
+    color_alone = figures.compare_chart(only_peru, "Country", "x").data[0].line.color
+    assert color_with_both == color_alone

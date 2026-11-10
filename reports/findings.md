@@ -138,4 +138,18 @@ Average mistake is in years. Bias above 0 means the forecasts were too high on a
 
 ## 4. Dashboard
 
-To be added on Day 6.
+**A dashboard to monitor how life expectancy at birth, death rate, and fertility rate have changed over the years for every country, with each country's income group and the difference between men and women in each year.**
+
+To open it, run `make app`.
+
+![The dashboard's country page](figures/dashboard_country.png)
+
+| Page | What it shows |
+| --- | --- |
+| **Story** | Three findings calculated from the data, and the income group chart |
+| **Country** | The chosen country's income group and region, its latest values with the change since 1960, and line charts of life expectancy, death rate, and fertility |
+| **Women and men** | Life expectancy of women and men, and the difference between them in each year |
+| **Compare** | Any measure by country (up to 8), income group, or region. This is the bonus option to group by income group and region. |
+| **Table** | The filtered rows, with a CSV download |
+
+The filters on the left are region, income group, country, and years. Choosing a region or income group shortens the country list. Group averages count each country once and are not weighted by population. Years with no data stay as gaps, so no values are invented.

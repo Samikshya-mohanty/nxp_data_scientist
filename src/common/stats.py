@@ -140,3 +140,61 @@ def bucket_moves(table, labels=BUCKETS):
 def bucket_counts(moves, labels=BUCKETS):
     counts = pd.crosstab(moves["bucket_1960"], moves["bucket_2023"])
     return counts.reindex(index=labels, columns=labels, fill_value=0)
+
+
+ALL = "All"
+GROUP_COLUMNS = {"Income group": "income_group", "Region": "region"}
+MEASURES = {
+    "life_exp": "Life expectancy (years)",
+    "death_rate": "Death rate (per 1,000 people)",
+    "fertility": "Fertility (births per woman)",
+    "gender_gap": "Gender gap (women minus men, years)",
+}
+
+
+def filter_panel(panel, region=ALL, income_group=ALL, years=(1960, 2023)):
+    rows = panel[panel["year"].between(years[0], years[1])]
+    if region != ALL:
+        rows = rows[rows["region"] == region]
+    if income_group != ALL:
+        rows = rows[rows["income_group"] == income_group]
+    return rows
+
+
+def countries_in(panel, region, income_group):
+    return sorted(filter_panel(panel, region, income_group)["country"].unique())
+
+
+def latest_and_change(rows, column):
+    values = rows.dropna(subset=[column]).sort_values("year")
+    if values.empty:
+        return None
+    first = values.iloc[0]
+    last = values.iloc[-1]
+    return {
+        "value": float(last[column]),
+        "year": int(last["year"]),
+        "change": float(last[column] - first[column]),
+        "since": int(first["year"]),
+    }
+
+
+def group_series(rows, group_by, column, countries=()):
+    if group_by == "Country":
+        selected = rows[rows["country"].isin(countries)]
+        result = selected.rename(columns={"country": "series", column: "value"})
+    else:
+        key = GROUP_COLUMNS[group_by]
+        means = rows.groupby([key, "year"], as_index=False)[column].mean()
+        result = means.rename(columns={key: "series", column: "value"})
+    return result[["series", "year", "value"]].sort_values(["series", "year"]).reset_index(drop=True)
+
+
+def story_numbers(panel):
+    moves = bucket_moves(panel)
+    lowest, highest = BUCKETS[0], BUCKETS[-1]
+    return {
+        "top_of_lowest_bucket_2023": moves[moves["bucket_2023"] == lowest]["life_exp_2023"].max(),
+        "bottom_of_highest_bucket_1960": moves[moves["bucket_1960"] == highest]["life_exp_1960"].min(),
+        "spread_changes": variability_changes(panel)["standard_deviation"],
+    }
