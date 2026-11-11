@@ -69,7 +69,7 @@ def _(Q1_COLUMNS, TangleChoice, mo):
 @app.cell
 def _(aggregates, panel, question_1):
     q1_by_year, q1_summary = question_1(panel, aggregates)
-    return q1_by_year, q1_summary
+    return (q1_summary,)
 
 
 @app.cell
@@ -81,11 +81,9 @@ def _(Q1_COLUMNS, q1_definition, q1_summary, stats):
 
 @app.cell
 def _(mo, q1_changes, q1_definition, q1_winner):
-    mo.md(
-        f"""
+    mo.md(f"""
     Using {q1_definition}, **{q1_winner}** changed the most, at **{q1_changes[q1_winner]:+.2f} years**.
-    """
-    )
+    """)
     return
 
 
@@ -143,7 +141,7 @@ def _(Q2_COLUMNS, TangleChoice, mo):
 @app.cell
 def _(panel, question_2):
     q2_by_year, q2_summary = question_2(panel)
-    return q2_by_year, q2_summary
+    return (q2_summary,)
 
 
 @app.cell
@@ -155,11 +153,9 @@ def _(Q2_COLUMNS, q2_measure, q2_summary, stats):
 
 @app.cell
 def _(mo, q2_changes, q2_measure, q2_winner):
-    mo.md(
-        f"""
+    mo.md(f"""
     Measured by {q2_measure}, **{q2_winner}** changed the most, with a change of **{q2_changes[q2_winner]:+.3f}**.
-    """
-    )
+    """)
     return
 
 
