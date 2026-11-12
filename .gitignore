@@ -2,3 +2,4 @@
 __pycache__/
 .pytest_cache/
 __marimo__/
+!notebooks/__marimo__/
