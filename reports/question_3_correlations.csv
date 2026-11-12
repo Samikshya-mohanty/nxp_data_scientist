@@ -1,0 +1,218 @@
+iso3,country,income_group,pearson,spearman,yearly_change_pearson,years_used,strength
+IND,India,Lower middle income,-0.9973,-0.9946,-0.0270,64,0.9973
+BRN,Brunei Darussalam,High income,-0.9943,-0.9772,-0.3470,64,0.9943
+GHA,Ghana,Lower middle income,-0.9937,-0.9878,-0.2544,64,0.9937
+TUR,Turkiye,Upper middle income,-0.9916,-0.9907,-0.0798,64,0.9916
+TCA,Turks and Caicos Islands,High income,-0.9908,-0.9986,-0.3043,64,0.9908
+DOM,Dominican Republic,Upper middle income,-0.9901,-0.9924,-0.1861,64,0.9901
+MYS,Malaysia,Upper middle income,-0.9875,-0.9864,-0.0241,64,0.9875
+EGY,"Egypt, Arab Rep.",Lower middle income,-0.9870,-0.9670,-0.0985,64,0.9870
+ALB,Albania,Upper middle income,-0.9866,-0.9872,-0.2826,64,0.9866
+ECU,Ecuador,Upper middle income,-0.9859,-0.9798,0.0188,64,0.9859
+BRA,Brazil,Upper middle income,-0.9856,-0.9922,-0.0923,64,0.9856
+CHL,Chile,High income,-0.9843,-0.9887,-0.1960,64,0.9843
+PYF,French Polynesia,High income,-0.9843,-0.9869,0.0100,64,0.9843
+MAR,Morocco,Lower middle income,-0.9841,-0.9934,-0.0828,64,0.9841
+MEX,Mexico,Upper middle income,-0.9837,-0.9603,-0.1133,64,0.9837
+MKD,North Macedonia,Upper middle income,-0.9834,-0.9698,-0.1654,64,0.9834
+NCL,New Caledonia,High income,-0.9832,-0.9954,-0.2041,64,0.9832
+WSM,Samoa,Upper middle income,-0.9829,-0.9471,-0.1499,64,0.9829
+PER,Peru,Upper middle income,-0.9800,-0.9894,-0.0232,64,0.9800
+SLV,El Salvador,Upper middle income,-0.9787,-0.9744,-0.1618,64,0.9787
+COL,Colombia,Upper middle income,-0.9785,-0.9881,-0.0553,64,0.9785
+ATG,Antigua and Barbuda,High income,-0.9783,-0.9535,-0.2910,64,0.9783
+PRY,Paraguay,Upper middle income,-0.9782,-0.9726,-0.0137,64,0.9782
+NIC,Nicaragua,Lower middle income,-0.9773,-0.9784,-0.0299,64,0.9773
+VGB,British Virgin Islands,High income,-0.9763,-0.9652,-0.0120,64,0.9763
+BOL,Bolivia,Lower middle income,-0.9752,-0.9800,-0.0300,64,0.9752
+BHS,"Bahamas, The",High income,-0.9732,-0.9421,-0.0752,64,0.9732
+THA,Thailand,Upper middle income,-0.9725,-0.9946,-0.3973,64,0.9725
+TON,Tonga,Upper middle income,-0.9718,-0.9978,-0.0028,64,0.9718
+MDG,Madagascar,Low income,-0.9717,-0.9921,0.0243,64,0.9717
+XKX,Kosovo,Upper middle income,-0.9716,-0.9659,-0.1670,64,0.9716
+CRI,Costa Rica,High income,-0.9703,-0.9838,-0.0004,64,0.9703
+QAT,Qatar,High income,-0.9702,-0.9944,0.1611,64,0.9702
+PAN,Panama,High income,-0.9695,-0.9945,0.0146,64,0.9695
+KIR,Kiribati,Lower middle income,-0.9689,-0.9598,-0.1568,64,0.9689
+VEN,"Venezuela, RB",Lower middle income,-0.9684,-0.9196,-0.3766,64,0.9684
+IDN,Indonesia,Upper middle income,-0.9678,-0.9698,-0.0609,64,0.9678
+TUN,Tunisia,Lower middle income,-0.9669,-0.9156,-0.0397,64,0.9669
+VCT,St. Vincent and the Grenadines,Upper middle income,-0.9666,-0.8117,-0.2151,64,0.9666
+VNM,Viet Nam,Upper middle income,-0.9639,-0.9355,-0.1874,64,0.9639
+MOZ,Mozambique,Low income,-0.9617,-0.8378,-0.1845,64,0.9617
+VUT,Vanuatu,Lower middle income,-0.9614,-0.9959,-0.0403,64,0.9614
+UGA,Uganda,Low income,-0.9609,-0.8372,-0.3376,64,0.9609
+MMR,Myanmar,Lower middle income,-0.9601,-0.9874,0.0493,64,0.9601
+KNA,St. Kitts and Nevis,High income,-0.9581,-0.9608,-0.1761,64,0.9581
+CPV,Cabo Verde,Upper middle income,-0.9559,-0.9903,0.1922,64,0.9559
+BTN,Bhutan,Lower middle income,-0.9550,-0.9995,-0.2116,64,0.9550
+KWT,Kuwait,High income,-0.9548,-0.9801,-0.0763,64,0.9548
+BHR,Bahrain,High income,-0.9546,-0.9914,-0.0717,64,0.9546
+TKM,Turkmenistan,Upper middle income,-0.9531,-0.9179,0.0723,64,0.9531
+LCA,St. Lucia,Upper middle income,-0.9520,-0.9230,0.0081,64,0.9520
+DZA,Algeria,Upper middle income,-0.9503,-0.8627,-0.2489,64,0.9503
+SDN,Sudan,Low income,-0.9495,-0.9170,-0.0121,64,0.9495
+NPL,Nepal,Lower middle income,-0.9481,-0.9987,-0.1197,64,0.9481
+ERI,Eritrea,Low income,-0.9467,-0.8728,-0.1159,64,0.9467
+PHL,Philippines,Upper middle income,-0.9459,-0.9791,0.2566,64,0.9459
+IRN,"Iran, Islamic Rep.",Upper middle income,-0.9453,-0.9279,-0.0574,64,0.9453
+HND,Honduras,Lower middle income,-0.9436,-0.9881,0.1114,64,0.9436
+DJI,Djibouti,Lower middle income,-0.9433,-0.9845,0.1338,64,0.9433
+MNE,Montenegro,Upper middle income,-0.9423,-0.9332,-0.1335,64,0.9423
+ABW,Aruba,High income,-0.9405,-0.9162,-0.1354,64,0.9405
+MUS,Mauritius,Upper middle income,-0.9404,-0.9761,-0.0118,64,0.9404
+SXM,Sint Maarten (Dutch part),High income,-0.9402,-0.9164,-0.2120,64,0.9402
+GRD,Grenada,Upper middle income,-0.9399,-0.9722,-0.2126,64,0.9399
+MWI,Malawi,Low income,-0.9389,-0.7756,-0.1107,64,0.9389
+PRI,Puerto Rico (US),High income,-0.9387,-0.9836,0.0353,64,0.9387
+KOR,"Korea, Rep.",High income,-0.9364,-0.9719,-0.0759,64,0.9364
+PRT,Portugal,High income,-0.9358,-0.9414,-0.2683,64,0.9358
+GTM,Guatemala,Upper middle income,-0.9354,-0.9837,0.0286,64,0.9354
+FJI,Fiji,Upper middle income,-0.9331,-0.9365,-0.0117,64,0.9331
+LAO,Lao PDR,Lower middle income,-0.9323,-0.9116,-0.0657,64,0.9323
+BGD,Bangladesh,Lower middle income,-0.9320,-0.9853,-0.0116,64,0.9320
+SYC,Seychelles,High income,-0.9313,-0.8471,-0.0973,64,0.9313
+HTI,Haiti,Lower middle income,-0.9310,-0.9537,-0.0139,64,0.9310
+URY,Uruguay,High income,-0.9292,-0.9514,0.0693,64,0.9292
+ARE,United Arab Emirates,High income,-0.9280,-0.9678,0.3061,64,0.9280
+JAM,Jamaica,Upper middle income,-0.9275,-0.8366,-0.0488,64,0.9275
+AGO,Angola,Lower middle income,-0.9271,-0.7730,-0.2528,64,0.9271
+CYM,Cayman Islands,High income,-0.9261,-0.9229,-0.1537,64,0.9261
+PLW,Palau,High income,-0.9254,-0.9042,-0.4696,64,0.9254
+SEN,Senegal,Lower middle income,-0.9243,-0.9004,-0.0234,64,0.9243
+LBR,Liberia,Low income,-0.9237,-0.7636,0.0285,64,0.9237
+AZE,Azerbaijan,Upper middle income,-0.9197,-0.9469,0.1063,64,0.9197
+CUB,Cuba,Upper middle income,-0.9194,-0.7484,-0.0458,64,0.9194
+MHL,Marshall Islands,Upper middle income,-0.9179,-0.9924,0.4487,64,0.9179
+MDV,Maldives,Upper middle income,-0.9173,-0.9077,-0.0484,64,0.9173
+BRB,Barbados,High income,-0.9170,-0.7425,-0.2438,64,0.9170
+KGZ,Kyrgyz Republic,Lower middle income,-0.9163,-0.7999,0.0161,64,0.9163
+ETH,Ethiopia,Low income,-0.9147,-0.7380,-0.2225,64,0.9147
+SAU,Saudi Arabia,High income,-0.9142,-0.9903,0.4763,64,0.9142
+HKG,"Hong Kong SAR, China",High income,-0.9106,-0.9073,-0.0508,64,0.9106
+POL,Poland,High income,-0.9093,-0.8571,-0.0940,64,0.9093
+COM,Comoros,Lower middle income,-0.9072,-0.8812,0.1385,64,0.9072
+LKA,Sri Lanka,Upper middle income,-0.9059,-0.9665,0.0510,64,0.9059
+JOR,Jordan,Upper middle income,-0.9043,-0.9637,0.2413,64,0.9043
+CUW,Curacao,High income,-0.9042,-0.8999,-0.0810,64,0.9042
+JPN,Japan,High income,-0.9040,-0.8707,0.0264,64,0.9040
+VIR,Virgin Islands (U.S.),High income,-0.9018,-0.9230,-0.0946,64,0.9018
+ASM,American Samoa,High income,-0.9010,-0.9516,-0.0537,64,0.9010
+UZB,Uzbekistan,Lower middle income,-0.9009,-0.8854,0.0498,64,0.9009
+TJK,Tajikistan,Lower middle income,-0.9009,-0.9094,0.2120,64,0.9009
+PNG,Papua New Guinea,Lower middle income,-0.8984,-0.9791,0.3790,64,0.8984
+AND,Andorra,High income,-0.8963,-0.9077,0.0382,64,0.8963
+GUM,Guam,High income,-0.8959,-0.7637,-0.2442,64,0.8959
+TUV,Tuvalu,Upper middle income,-0.8950,-0.8143,-0.2006,64,0.8950
+DMA,Dominica,Upper middle income,-0.8936,-0.6060,-0.1340,64,0.8936
+TTO,Trinidad and Tobago,High income,-0.8929,-0.9908,0.0230,64,0.8929
+ESP,Spain,High income,-0.8880,-0.8210,-0.0303,64,0.8880
+TZA,Tanzania,Lower middle income,-0.8868,-0.8515,0.2493,64,0.8868
+BDI,Burundi,Low income,-0.8857,-0.6720,-0.0668,64,0.8857
+TGO,Togo,Lower middle income,-0.8844,-0.9102,0.2713,64,0.8844
+MRT,Mauritania,Lower middle income,-0.8793,-0.8798,0.2535,64,0.8793
+SLE,Sierra Leone,Low income,-0.8786,-0.5204,-0.3002,64,0.8786
+ARM,Armenia,Upper middle income,-0.8771,-0.8762,-0.0120,64,0.8771
+GRC,Greece,High income,-0.8764,-0.7593,-0.1012,64,0.8764
+CYP,Cyprus,High income,-0.8754,-0.9275,-0.0264,64,0.8754
+IRL,Ireland,High income,-0.8741,-0.9211,0.0712,64,0.8741
+MNG,Mongolia,Upper middle income,-0.8726,-0.8003,0.1811,64,0.8726
+HRV,Croatia,High income,-0.8673,-0.8718,-0.0211,64,0.8673
+GIB,Gibraltar,High income,-0.8629,-0.9275,-0.0820,64,0.8629
+MAC,"Macao SAR, China",High income,-0.8607,-0.8779,-0.2202,64,0.8607
+ITA,Italy,High income,-0.8565,-0.7332,0.1600,64,0.8565
+MLT,Malta,High income,-0.8516,-0.9099,-0.0466,64,0.8516
+MAF,St. Martin (French part),High income,-0.8515,-0.8379,0.1846,64,0.8515
+BLZ,Belize,Upper middle income,-0.8512,-0.9721,0.1804,64,0.8512
+PAK,Pakistan,Lower middle income,-0.8450,-0.9683,0.1682,64,0.8450
+IMN,Isle of Man,High income,-0.8418,-0.8923,0.2148,64,0.8418
+ISL,Iceland,High income,-0.8411,-0.8916,0.1246,64,0.8411
+GUY,Guyana,High income,-0.8404,-0.9766,0.0780,64,0.8404
+CHN,China,Upper middle income,-0.8380,-0.8774,0.4734,64,0.8380
+SGP,Singapore,High income,-0.8355,-0.9685,-0.1149,64,0.8355
+FSM,"Micronesia, Fed. Sts.",Upper middle income,-0.8277,-0.9571,0.4477,64,0.8277
+SLB,Solomon Islands,Lower middle income,-0.8244,-0.9894,0.2856,64,0.8244
+OMN,Oman,High income,-0.8237,-0.8479,0.3169,64,0.8237
+CIV,Cote d'Ivoire,Lower middle income,-0.8231,-0.8601,0.5807,64,0.8231
+SUR,Suriname,Upper middle income,-0.8161,-0.9870,0.1355,64,0.8161
+SRB,Serbia,Upper middle income,-0.8146,-0.8072,0.3064,64,0.8146
+ARG,Argentina,Upper middle income,-0.8041,-0.8552,0.2236,64,0.8041
+LBY,Libya,Upper middle income,-0.7996,-0.9124,0.1563,64,0.7996
+GMB,"Gambia, The",Low income,-0.7953,-0.8258,0.1892,64,0.7953
+AUS,Australia,High income,-0.7930,-0.8151,0.0054,64,0.7930
+STP,Sao Tome and Principe,Lower middle income,-0.7922,-0.9147,0.3379,64,0.7922
+GIN,Guinea,Lower middle income,-0.7897,-0.6636,-0.0836,64,0.7897
+GEO,Georgia,Upper middle income,-0.7887,-0.7702,-0.2191,64,0.7887
+IRQ,Iraq,Upper middle income,-0.7867,-0.8123,0.1202,64,0.7867
+SVK,Slovak Republic,High income,-0.7843,-0.8001,-0.0606,64,0.7843
+LIE,Liechtenstein,High income,-0.7830,-0.7794,-0.1818,64,0.7830
+GNB,Guinea-Bissau,Low income,-0.7823,-0.6340,-0.1172,64,0.7823
+MDA,Moldova,Upper middle income,-0.7820,-0.6954,0.0290,64,0.7820
+BIH,Bosnia and Herzegovina,Upper middle income,-0.7820,-0.8571,-0.0473,64,0.7820
+AUT,Austria,High income,-0.7792,-0.7699,0.0569,64,0.7792
+BMU,Bermuda,High income,-0.7751,-0.7601,0.0520,64,0.7751
+CHE,Switzerland,High income,-0.7631,-0.7598,-0.0306,64,0.7631
+MNP,Northern Mariana Islands,High income,-0.7545,-0.6268,-0.0544,64,0.7545
+BEN,Benin,Lower middle income,-0.7542,-0.7656,0.3160,64,0.7542
+MLI,Mali,Low income,-0.7531,-0.7204,0.1776,64,0.7531
+SMR,San Marino,High income,-0.7507,-0.7200,0.0032,64,0.7507
+CAN,Canada,High income,-0.7489,-0.8805,0.1167,64,0.7489
+SSD,South Sudan,Low income,-0.7482,-0.6644,-0.0836,64,0.7482
+ISR,Israel,High income,-0.7431,-0.6086,-0.0388,60,0.7431
+YEM,"Yemen, Rep.",Low income,-0.7374,-0.7229,0.1963,64,0.7374
+SYR,Syrian Arab Republic,Low income,-0.7355,-0.7365,0.1424,64,0.7355
+AFG,Afghanistan,Low income,-0.7343,-0.4951,0.0742,64,0.7343
+PSE,West Bank and Gaza,Lower middle income,-0.7252,-0.8081,-0.1195,34,0.7252
+COG,"Congo, Rep.",Lower middle income,-0.7251,-0.7461,0.0484,64,0.7251
+RWA,Rwanda,Low income,-0.7126,-0.6657,-0.0137,64,0.7126
+NZL,New Zealand,High income,-0.7031,-0.7677,0.0881,64,0.7031
+NOR,Norway,High income,-0.7031,-0.6461,0.0503,64,0.7031
+SVN,Slovenia,High income,-0.6871,-0.6954,0.0686,64,0.6871
+GBR,United Kingdom,High income,-0.6857,-0.6131,0.1452,64,0.6857
+FRA,France,High income,-0.6848,-0.4705,0.1021,64,0.6848
+NGA,Nigeria,Lower middle income,-0.6836,-0.7076,0.3824,64,0.6836
+KEN,Kenya,Lower middle income,-0.6829,-0.7639,0.5331,64,0.6829
+FRO,Faroe Islands,High income,-0.6757,-0.6874,-0.0009,64,0.6757
+CZE,Czechia,High income,-0.6683,-0.7132,-0.1736,64,0.6683
+GNQ,Equatorial Guinea,Upper middle income,-0.6648,-0.5223,-0.0267,64,0.6648
+PRK,"Korea, Dem. People's Rep.",Low income,-0.6622,-0.7396,0.0188,64,0.6622
+HUN,Hungary,High income,-0.6558,-0.6615,-0.0357,64,0.6558
+USA,United States,High income,-0.6544,-0.3933,0.1037,64,0.6544
+LBN,Lebanon,Lower middle income,-0.6490,-0.7905,0.0192,64,0.6490
+BEL,Belgium,High income,-0.6458,-0.4874,0.2524,64,0.6458
+GRL,Greenland,High income,-0.6449,-0.6856,-0.0526,64,0.6449
+BFA,Burkina Faso,Low income,-0.6425,-0.6042,0.2827,64,0.6425
+FIN,Finland,High income,-0.6224,-0.3964,0.1731,64,0.6224
+DEU,Germany,High income,-0.6193,-0.3902,0.1309,64,0.6193
+NLD,Netherlands,High income,-0.6082,-0.3855,0.0228,64,0.6082
+TLS,Timor-Leste,Lower middle income,-0.6067,-0.4489,0.1714,64,0.6067
+CHI,Channel Islands,High income,-0.6010,-0.4152,0.1303,64,0.6010
+LUX,Luxembourg,High income,-0.5925,-0.5135,0.0505,62,0.5925
+NRU,Naoero,High income,-0.5784,-0.5864,0.2497,64,0.5784
+CMR,Cameroon,Lower middle income,-0.5592,-0.6292,0.1783,64,0.5592
+ZMB,Zambia,Lower middle income,-0.5273,-0.2325,0.0010,64,0.5273
+ROU,Romania,High income,-0.5264,-0.5468,-0.3048,64,0.5264
+NER,Niger,Low income,-0.5141,-0.1542,0.1619,64,0.5141
+ZAF,South Africa,Upper middle income,-0.5138,-0.5707,0.1141,64,0.5138
+LTU,Lithuania,High income,-0.5011,-0.4647,0.0970,64,0.5011
+GAB,Gabon,Upper middle income,-0.4970,-0.6910,0.7959,64,0.4970
+SWE,Sweden,High income,-0.4772,-0.4262,0.0256,64,0.4772
+KAZ,Kazakhstan,Upper middle income,-0.4712,-0.5324,-0.2371,64,0.4712
+KHM,Cambodia,Lower middle income,-0.4509,-0.7110,0.6229,64,0.4509
+DNK,Denmark,High income,-0.4482,-0.4051,-0.1199,64,0.4482
+MCO,Monaco,High income,-0.4159,-0.3684,0.0441,64,0.4159
+EST,Estonia,High income,-0.3937,-0.3331,0.1520,64,0.3937
+SOM,"Somalia, Fed. Rep.",Low income,-0.3477,-0.0781,-0.0364,64,0.3477
+ZWE,Zimbabwe,Lower middle income,0.3452,0.0840,0.3709,64,0.3452
+BGR,Bulgaria,High income,-0.3447,-0.4814,0.1574,64,0.3447
+LSO,Lesotho,Lower middle income,0.3159,0.1440,0.3065,64,0.3159
+NAM,Namibia,Lower middle income,-0.3001,-0.3407,0.4022,64,0.3001
+LVA,Latvia,High income,-0.2239,-0.2824,0.0340,64,0.2239
+RUS,Russian Federation,High income,0.1991,0.3294,0.2620,64,0.1991
+BWA,Botswana,Upper middle income,-0.1896,-0.3427,0.4307,64,0.1896
+TCD,Chad,Low income,0.1568,0.1930,0.0705,64,0.1568
+UKR,Ukraine,Upper middle income,0.1380,0.1687,0.0937,64,0.1380
+COD,"Congo, Dem. Rep.",Low income,0.1228,0.2326,-0.0844,64,0.1228
+CAF,Central African Republic,Low income,0.0866,0.3519,-0.0004,64,0.0866
+SWZ,Eswatini,Lower middle income,0.0400,-0.1317,0.4013,64,0.0400
+BLR,Belarus,Upper middle income,0.0204,0.1975,0.2805,64,0.0204

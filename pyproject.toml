@@ -1,0 +1,31 @@
+[project]
+name = "lifeexp"
+version = "0.1.0"
+description = "Analysis, forecast, and dashboard of World Bank life expectancy data"
+readme = "README.md"
+authors = [
+    { name = "Samikshya-mohanty", email = "samikshyamohanty09@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "kaleido>=1.5.0",
+    "marimo>=0.25.2",
+    "numpy>=2.5.4",
+    "pandas>=3.1.0",
+    "plotly>=7.1.0",
+    "requests>=2.34.2",
+    "scikit-learn>=1.9.1",
+    "wigglystuff>=0.5.36",
+]
+
+[build-system]
+requires = ["uv_build>=0.9.11,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = ["common", "ml", "scripts"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+]

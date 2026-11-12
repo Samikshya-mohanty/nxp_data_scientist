@@ -1,0 +1,216 @@
+iso3,country,bucket_1960,bucket_2023,life_exp_1960,life_exp_2023
+ABW,Aruba,High life expectancy,Medium life expectancy,64.049,76.353
+AFG,Afghanistan,Very low life expectancy,Very low life expectancy,32.799,66.035
+AGO,Angola,Very low life expectancy,Very low life expectancy,37.933,64.617
+ALB,Albania,Medium life expectancy,High life expectancy,56.413,79.602
+AND,Andorra,Very high life expectancy,Very high life expectancy,72.094,84.041
+ARE,United Arab Emirates,Low life expectancy,Very high life expectancy,50.651,82.909
+ARG,Argentina,High life expectancy,High life expectancy,64.242,77.395
+ARM,Armenia,High life expectancy,High life expectancy,59.063,77.466
+ASM,American Samoa,High life expectancy,Medium life expectancy,65.053,72.852
+ATG,Antigua and Barbuda,High life expectancy,High life expectancy,62.635,77.598
+AUS,Australia,Very high life expectancy,Very high life expectancy,70.817,83.051
+AUT,Austria,Very high life expectancy,Very high life expectancy,68.586,81.793
+AZE,Azerbaijan,Low life expectancy,Medium life expectancy,50.862,74.429
+BDI,Burundi,Very low life expectancy,Very low life expectancy,43.262,63.651
+BEL,Belgium,Very high life expectancy,Very high life expectancy,69.702,82.400
+BEN,Benin,Very low life expectancy,Very low life expectancy,38.775,60.774
+BFA,Burkina Faso,Very low life expectancy,Very low life expectancy,36.074,61.092
+BGD,Bangladesh,Low life expectancy,Medium life expectancy,43.980,74.672
+BGR,Bulgaria,Very high life expectancy,Medium life expectancy,69.248,75.756
+BHR,Bahrain,Low life expectancy,Very high life expectancy,50.634,81.284
+BHS,"Bahamas, The",High life expectancy,Medium life expectancy,62.454,74.552
+BIH,Bosnia and Herzegovina,Medium life expectancy,High life expectancy,58.530,77.850
+BLR,Belarus,Very high life expectancy,Medium life expectancy,69.255,74.184
+BLZ,Belize,Medium life expectancy,Medium life expectancy,57.389,73.566
+BMU,Bermuda,High life expectancy,Very high life expectancy,66.482,82.309
+BOL,Bolivia,Very low life expectancy,Low life expectancy,43.338,68.581
+BRA,Brazil,Medium life expectancy,Medium life expectancy,53.162,75.848
+BRB,Barbados,High life expectancy,Medium life expectancy,64.149,76.178
+BRN,Brunei Darussalam,Medium life expectancy,Medium life expectancy,58.721,75.327
+BTN,Bhutan,Very low life expectancy,Medium life expectancy,36.367,72.975
+BWA,Botswana,Low life expectancy,Low life expectancy,51.220,69.163
+CAF,Central African Republic,Very low life expectancy,Very low life expectancy,39.572,57.408
+CAN,Canada,Very high life expectancy,Very high life expectancy,71.133,81.626
+CHE,Switzerland,Very high life expectancy,Very high life expectancy,71.313,84.156
+CHI,Channel Islands,Very high life expectancy,Very high life expectancy,72.500,81.100
+CHL,Chile,Medium life expectancy,Very high life expectancy,57.216,81.167
+CHN,China,Very low life expectancy,High life expectancy,33.419,77.953
+CIV,Cote d'Ivoire,Very low life expectancy,Very low life expectancy,37.244,61.944
+CMR,Cameroon,Very low life expectancy,Very low life expectancy,34.667,63.700
+COD,"Congo, Dem. Rep.",Very low life expectancy,Very low life expectancy,40.752,61.895
+COG,"Congo, Rep.",Low life expectancy,Very low life expectancy,47.595,65.772
+COL,Colombia,Medium life expectancy,High life expectancy,56.609,77.725
+COM,Comoros,Very low life expectancy,Very low life expectancy,40.777,66.777
+CPV,Cabo Verde,Low life expectancy,Medium life expectancy,48.713,76.059
+CRI,Costa Rica,High life expectancy,High life expectancy,63.463,80.799
+CUB,Cuba,High life expectancy,High life expectancy,63.316,78.085
+CUW,Curacao,High life expectancy,High life expectancy,65.406,76.800
+CYM,Cayman Islands,Medium life expectancy,High life expectancy,58.782,80.358
+CYP,Cyprus,High life expectancy,Very high life expectancy,63.320,81.648
+CZE,Czechia,Very high life expectancy,High life expectancy,70.349,79.827
+DEU,Germany,Very high life expectancy,High life expectancy,69.064,81.041
+DJI,Djibouti,Very low life expectancy,Very low life expectancy,43.421,65.987
+DMA,Dominica,High life expectancy,Low life expectancy,60.076,71.132
+DNK,Denmark,Very high life expectancy,Very high life expectancy,72.177,81.754
+DOM,Dominican Republic,Medium life expectancy,Medium life expectancy,51.705,73.720
+DZA,Algeria,Very low life expectancy,Medium life expectancy,40.839,76.261
+ECU,Ecuador,Medium life expectancy,High life expectancy,53.396,77.392
+EGY,"Egypt, Arab Rep.",Low life expectancy,Low life expectancy,44.436,71.633
+ERI,Eritrea,Very low life expectancy,Low life expectancy,37.443,68.624
+ESP,Spain,Very high life expectancy,Very high life expectancy,69.109,83.934
+EST,Estonia,Very high life expectancy,High life expectancy,68.749,78.793
+ETH,Ethiopia,Very low life expectancy,Low life expectancy,39.615,67.315
+FIN,Finland,Very high life expectancy,Very high life expectancy,68.820,81.585
+FJI,Fiji,Medium life expectancy,Low life expectancy,58.602,67.316
+FRA,France,Very high life expectancy,Very high life expectancy,69.868,82.832
+FRO,Faroe Islands,Very high life expectancy,Very high life expectancy,72.108,82.952
+FSM,"Micronesia, Fed. Sts.",Medium life expectancy,Low life expectancy,54.195,67.198
+GAB,Gabon,Low life expectancy,Low life expectancy,46.443,68.337
+GBR,United Kingdom,Very high life expectancy,Very high life expectancy,71.127,81.238
+GEO,Georgia,High life expectancy,Medium life expectancy,61.347,74.496
+GHA,Ghana,Low life expectancy,Very low life expectancy,46.942,65.498
+GIB,Gibraltar,Very high life expectancy,Very high life expectancy,70.209,83.553
+GIN,Guinea,Very low life expectancy,Very low life expectancy,36.623,60.740
+GMB,"Gambia, The",Very low life expectancy,Very low life expectancy,34.574,65.860
+GNB,Guinea-Bissau,Very low life expectancy,Very low life expectancy,37.554,64.085
+GNQ,Equatorial Guinea,Very low life expectancy,Very low life expectancy,42.742,63.707
+GRC,Greece,Very high life expectancy,Very high life expectancy,70.434,81.737
+GRD,Grenada,High life expectancy,Medium life expectancy,63.144,75.205
+GRL,Greenland,Medium life expectancy,Low life expectancy,58.552,70.972
+GTM,Guatemala,Low life expectancy,Medium life expectancy,45.760,72.602
+GUM,Guam,High life expectancy,High life expectancy,62.882,77.209
+GUY,Guyana,Medium life expectancy,Low life expectancy,57.510,70.180
+HKG,"Hong Kong SAR, China",High life expectancy,Very high life expectancy,65.697,85.247
+HND,Honduras,Low life expectancy,Medium life expectancy,47.149,72.884
+HRV,Croatia,High life expectancy,High life expectancy,65.746,78.473
+HTI,Haiti,Low life expectancy,Very low life expectancy,43.440,64.936
+HUN,Hungary,Very high life expectancy,High life expectancy,68.003,76.571
+IDN,Indonesia,Low life expectancy,Low life expectancy,46.835,71.146
+IMN,Isle of Man,High life expectancy,High life expectancy,64.557,80.999
+IND,India,Low life expectancy,Low life expectancy,45.610,72.003
+IRL,Ireland,Very high life expectancy,Very high life expectancy,70.194,82.807
+IRN,"Iran, Islamic Rep.",Very low life expectancy,High life expectancy,43.297,77.654
+IRQ,Iraq,Medium life expectancy,Low life expectancy,51.462,72.324
+ISL,Iceland,Very high life expectancy,Very high life expectancy,74.040,82.456
+ITA,Italy,Very high life expectancy,Very high life expectancy,69.124,83.351
+JAM,Jamaica,High life expectancy,Low life expectancy,63.828,71.479
+JOR,Jordan,Medium life expectancy,High life expectancy,52.678,77.814
+JPN,Japan,Very high life expectancy,Very high life expectancy,67.696,84.041
+KAZ,Kazakhstan,Medium life expectancy,Medium life expectancy,57.946,74.402
+KEN,Kenya,Low life expectancy,Very low life expectancy,48.477,63.646
+KGZ,Kyrgyz Republic,Medium life expectancy,Low life expectancy,55.029,72.249
+KHM,Cambodia,Very low life expectancy,Low life expectancy,42.134,70.668
+KIR,Kiribati,Low life expectancy,Very low life expectancy,47.958,66.473
+KNA,St. Kitts and Nevis,Medium life expectancy,Low life expectancy,56.840,72.145
+KOR,"Korea, Rep.",Medium life expectancy,Very high life expectancy,53.798,83.429
+KWT,Kuwait,High life expectancy,Very high life expectancy,59.203,83.188
+LAO,Lao PDR,Very low life expectancy,Low life expectancy,41.036,68.964
+LBN,Lebanon,High life expectancy,High life expectancy,63.927,77.817
+LBR,Liberia,Very low life expectancy,Very low life expectancy,38.073,62.163
+LBY,Libya,Very low life expectancy,Low life expectancy,40.752,69.339
+LCA,St. Lucia,Medium life expectancy,Medium life expectancy,57.865,72.697
+LIE,Liechtenstein,Very high life expectancy,Very high life expectancy,70.888,84.595
+LKA,Sri Lanka,High life expectancy,High life expectancy,60.602,77.483
+LSO,Lesotho,Low life expectancy,Very low life expectancy,50.171,57.375
+LTU,Lithuania,Very high life expectancy,High life expectancy,69.847,77.290
+LUX,Luxembourg,Very high life expectancy,Very high life expectancy,68.801,83.310
+LVA,Latvia,Very high life expectancy,Medium life expectancy,69.787,75.427
+MAC,"Macao SAR, China",High life expectancy,Very high life expectancy,63.781,83.180
+MAF,St. Martin (French part),High life expectancy,High life expectancy,67.648,80.224
+MAR,Morocco,Very low life expectancy,Medium life expectancy,41.730,75.313
+MCO,Monaco,Very high life expectancy,Very high life expectancy,71.861,86.372
+MDA,Moldova,High life expectancy,Low life expectancy,59.440,71.198
+MDG,Madagascar,Very low life expectancy,Very low life expectancy,43.349,63.632
+MDV,Maldives,Very low life expectancy,High life expectancy,38.244,81.041
+MEX,Mexico,Medium life expectancy,Medium life expectancy,53.573,75.069
+MHL,Marshall Islands,Medium life expectancy,Very low life expectancy,54.359,66.945
+MKD,North Macedonia,High life expectancy,Medium life expectancy,60.502,75.316
+MLI,Mali,Very low life expectancy,Very low life expectancy,30.459,60.439
+MLT,Malta,Very high life expectancy,Very high life expectancy,68.344,83.356
+MMR,Myanmar,Low life expectancy,Very low life expectancy,44.086,66.889
+MNE,Montenegro,High life expectancy,High life expectancy,65.492,77.588
+MNG,Mongolia,Low life expectancy,Low life expectancy,44.531,72.122
+MNP,Northern Mariana Islands,High life expectancy,High life expectancy,61.390,78.808
+MOZ,Mozambique,Very low life expectancy,Very low life expectancy,41.197,63.611
+MRT,Mauritania,Low life expectancy,Low life expectancy,43.611,68.484
+MUS,Mauritius,Medium life expectancy,Medium life expectancy,58.461,73.412
+MWI,Malawi,Very low life expectancy,Low life expectancy,34.986,67.353
+MYS,Malaysia,Medium life expectancy,High life expectancy,57.168,76.657
+NAM,Namibia,Low life expectancy,Low life expectancy,48.529,67.385
+NCL,New Caledonia,Medium life expectancy,High life expectancy,52.341,78.766
+NER,Niger,Very low life expectancy,Very low life expectancy,36.193,61.183
+NGA,Nigeria,Very low life expectancy,Very low life expectancy,37.207,54.462
+NIC,Nicaragua,Low life expectancy,Medium life expectancy,46.399,74.947
+NLD,Netherlands,Very high life expectancy,Very high life expectancy,73.393,81.863
+NOR,Norway,Very high life expectancy,Very high life expectancy,73.550,83.012
+NPL,Nepal,Very low life expectancy,Low life expectancy,38.652,70.354
+NRU,Naoero,Medium life expectancy,Very low life expectancy,57.924,62.109
+NZL,New Zealand,Very high life expectancy,Very high life expectancy,71.237,81.759
+OMN,Oman,Very low life expectancy,High life expectancy,35.429,80.031
+PAK,Pakistan,Low life expectancy,Low life expectancy,44.101,67.649
+PAN,Panama,High life expectancy,High life expectancy,60.278,79.594
+PER,Peru,Low life expectancy,High life expectancy,50.597,77.740
+PHL,Philippines,High life expectancy,Low life expectancy,59.175,69.833
+PLW,Palau,Medium life expectancy,Low life expectancy,54.853,69.269
+PNG,Papua New Guinea,Low life expectancy,Very low life expectancy,45.805,66.134
+POL,Poland,Very high life expectancy,High life expectancy,67.680,78.259
+PRI,Puerto Rico (US),Very high life expectancy,Very high life expectancy,68.627,81.690
+PRK,"Korea, Dem. People's Rep.",Medium life expectancy,Medium life expectancy,55.814,73.642
+PRT,Portugal,High life expectancy,Very high life expectancy,64.007,82.329
+PRY,Paraguay,High life expectancy,Medium life expectancy,60.197,73.844
+PYF,French Polynesia,High life expectancy,Very high life expectancy,59.445,84.070
+QAT,Qatar,Medium life expectancy,Very high life expectancy,57.773,82.368
+ROU,Romania,High life expectancy,Medium life expectancy,65.861,76.405
+RUS,Russian Federation,High life expectancy,Medium life expectancy,67.526,73.255
+RWA,Rwanda,Low life expectancy,Low life expectancy,47.022,67.785
+SAU,Saudi Arabia,Low life expectancy,High life expectancy,45.310,78.732
+SDN,Sudan,Low life expectancy,Very low life expectancy,49.566,66.331
+SEN,Senegal,Very low life expectancy,Low life expectancy,39.668,68.683
+SGP,Singapore,High life expectancy,Very high life expectancy,65.562,83.098
+SLB,Solomon Islands,Low life expectancy,Low life expectancy,47.683,70.528
+SLE,Sierra Leone,Very low life expectancy,Very low life expectancy,33.090,61.786
+SLV,El Salvador,Low life expectancy,Low life expectancy,48.292,72.099
+SMR,San Marino,Very high life expectancy,Very high life expectancy,73.197,85.706
+SOM,"Somalia, Fed. Rep.",Low life expectancy,Very low life expectancy,43.543,58.816
+SRB,Serbia,High life expectancy,Medium life expectancy,65.590,76.141
+SSD,South Sudan,Very low life expectancy,Very low life expectancy,28.054,57.617
+STP,Sao Tome and Principe,Low life expectancy,Low life expectancy,43.564,69.718
+SUR,Suriname,Medium life expectancy,Medium life expectancy,56.595,73.631
+SVK,Slovak Republic,Very high life expectancy,High life expectancy,70.270,78.120
+SVN,Slovenia,Very high life expectancy,Very high life expectancy,68.978,81.929
+SWE,Sweden,Very high life expectancy,Very high life expectancy,73.006,83.310
+SWZ,Eswatini,Low life expectancy,Very low life expectancy,46.389,64.123
+SXM,Sint Maarten (Dutch part),High life expectancy,Medium life expectancy,66.351,76.371
+SYC,Seychelles,High life expectancy,Medium life expectancy,60.531,75.420
+SYR,Syrian Arab Republic,Medium life expectancy,Low life expectancy,52.723,72.120
+TCA,Turks and Caicos Islands,Medium life expectancy,High life expectancy,56.292,78.008
+TCD,Chad,Very low life expectancy,Very low life expectancy,39.216,55.069
+TGO,Togo,Low life expectancy,Very low life expectancy,43.536,62.740
+THA,Thailand,Low life expectancy,Medium life expectancy,50.608,76.412
+TJK,Tajikistan,Medium life expectancy,Low life expectancy,52.535,71.790
+TKM,Turkmenistan,Medium life expectancy,Low life expectancy,52.149,70.073
+TLS,Timor-Leste,Very low life expectancy,Low life expectancy,32.402,67.689
+TON,Tonga,Medium life expectancy,Medium life expectancy,58.315,72.895
+TTO,Trinidad and Tobago,High life expectancy,Medium life expectancy,62.505,73.490
+TUN,Tunisia,Low life expectancy,Medium life expectancy,44.049,76.508
+TUR,Turkiye,Low life expectancy,High life expectancy,50.799,77.156
+TUV,Tuvalu,Low life expectancy,Very low life expectancy,48.261,67.105
+TZA,Tanzania,Very low life expectancy,Very low life expectancy,42.596,66.995
+UGA,Uganda,Low life expectancy,Low life expectancy,45.633,68.252
+UKR,Ukraine,Very high life expectancy,Medium life expectancy,69.388,73.422
+URY,Uruguay,Very high life expectancy,High life expectancy,67.683,78.138
+USA,United States,Very high life expectancy,High life expectancy,69.771,78.385
+UZB,Uzbekistan,Medium life expectancy,Medium life expectancy,56.539,72.388
+VCT,St. Vincent and the Grenadines,Medium life expectancy,Low life expectancy,58.566,71.230
+VEN,"Venezuela, RB",Medium life expectancy,Medium life expectancy,58.376,72.514
+VGB,British Virgin Islands,High life expectancy,High life expectancy,62.709,77.276
+VIR,Virgin Islands (U.S.),High life expectancy,High life expectancy,62.744,80.520
+VNM,Viet Nam,Medium life expectancy,Medium life expectancy,58.046,74.588
+VUT,Vanuatu,Low life expectancy,Low life expectancy,49.841,71.477
+WSM,Samoa,Medium life expectancy,Low life expectancy,55.153,71.698
+XKX,Kosovo,Low life expectancy,High life expectancy,48.702,78.033
+YEM,"Yemen, Rep.",Very low life expectancy,Low life expectancy,33.462,69.295
+ZAF,South Africa,Medium life expectancy,Very low life expectancy,52.575,66.139
+ZMB,Zambia,Low life expectancy,Very low life expectancy,50.648,66.349
+ZWE,Zimbabwe,Medium life expectancy,Very low life expectancy,53.492,62.775
