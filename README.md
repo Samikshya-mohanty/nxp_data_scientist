@@ -43,6 +43,18 @@ uv run marimo run notebooks/02_charts.py
 uv run marimo run notebooks/03_forecast.py
 ```
 
+### Open the notebooks in molab
+
+[molab](https://molab.marimo.io) is marimo's free cloud service. These links show each notebook's code, text, and charts, with no installation or login.
+
+| Notebook | Link |
+| --- | --- |
+| Statistics: the three questions | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/Samikshya-mohanty/nxp_data_scientist/blob/main/notebooks/01_statistics.py) |
+| Charts: line chart, world map, and Sankey diagram | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/Samikshya-mohanty/nxp_data_scientist/blob/main/notebooks/02_charts.py) |
+| Forecast: practice exams and final score | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/Samikshya-mohanty/nxp_data_scientist/blob/main/notebooks/03_forecast.py) |
+
+The molab preview is read-only, and it does not show the interactive parts, such as the clickable answers and the tables. molab copies only the notebook file, and these notebooks import code from `src/` and read data from this repository, so they cannot run there. To see everything, use the commands above. All the answers are also in [reports/findings.md](reports/findings.md).
+
 ## Results
 
 ### Statistics
